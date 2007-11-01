@@ -1,0 +1,16 @@
+Known issues:
+
+Kolmogorov-Smirnov
+.NET version of Wfccm2 produces different p-values, but test statistics match exactly.
+
+Wilcoxon
+.NET version of Wfccm2 produces different test statistics because R subtracts a certain amount based on the sample size.  This also affects the p-values, but does not affect their ranking.
+
+SAM
+.NET version of Wfccm2 produces different test statistics because the R version is more recent.
+
+WGA, InfoScore
+These tests were ported from .NET version of Wfccm2.
+
+T
+.NET version of Wfccm2 uses the R source.
