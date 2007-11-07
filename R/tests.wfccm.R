@@ -76,5 +76,5 @@ tests.wfccm <- function(x, grp, tests = c('t', 'ks', 'wilcox', 'sam', 'wga', 'hu
     }
     result <- cbind(result, rank.wfccm(result[,colnames(result)[grep('.rank$', colnames(result))]], ties.break=1))
     class(result) <- c('tests.wfccm', 'data.frame')
-    return(result)
+    result
 }

@@ -21,5 +21,5 @@ scores.wfccm <- function(data, stats=NULL, model=NULL, features=NULL)
     if (all(is.na(features)))
         features[1:length(features)] <- numeric(length(features))
     samples <- as.matrix(data) %*% features
-    return(list(features=features, samples=samples))
+    list(features=features, samples=samples)
 }

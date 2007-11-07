@@ -17,5 +17,5 @@ winners.wfccm <- function(stats, criteriaset)
     #    numPass <- numPass + curPass
     #}
     pass <- with(stats, eval(parse(text=criteriaset@pass)))
-    return(data.frame(pass, fdrPass, numPass))
+    data.frame(pass, fdrPass, numPass)
 }

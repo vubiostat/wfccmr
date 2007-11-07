@@ -25,5 +25,5 @@ rank.wfccm <- function(data, rev=FALSE, ties.break=NULL)
     else
         ranks$rank <- order(order.data.frame(cbind(ranks$ranksum, data[,ties.break])))
 
-    return(ranks)
+    ranks
 }

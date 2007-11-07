@@ -20,5 +20,5 @@ sign.wfccm <- function(data, lead, rest)
         else
             data[[col]] <- abs(data[[col]]) * signs
     }
-    return(data)
+    data
 }

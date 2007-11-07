@@ -47,5 +47,5 @@ wfccmr <- function(data, group, tests=tests.wfccm(data,group), model, testdata=N
         }
         results[[i]] <- result
     }
-    return(results)
+    results
 }
