@@ -1,1 +1,16 @@
-exportPattern("^[^\\.]")
+useDynLib('Wfccm', fdrAdjust)
+
+import(methods)
+
+export(Criteria, CriteriaSet, CriteriaManager, CutoffManager, TopNManager)
+export(is.Criteria, is.CriteriaSet, is.CriteriaManager, is.CutoffManager, is.TopNManager)
+export(write.CriteriaManager, write.CutoffManager, write.TopNManager)
+export(read.CriteriaManager)
+export(distance, fdrAdjustment, filter.wfccm, rank.wfccm, scores.wfccm, sign.wfccm, tests.wfccm, winners.wfccm, wfccmr)
+
+exportClasses(Criteria, CriteriaSet, CriteriaManager, CutoffManager, TopNManager)
+
+exportMethods(coerce, show, '[', '[[', length, names, c, as.Criteria)
+
+S3method(plot, topn)
+S3method(summary, tests.wfccm)

@@ -3,7 +3,7 @@ Version: 0.0
 Title: WFCCM for R
 Author: Will Gray <w.gray@vanderbilt.edu>, with contributions from Yu Shyr <yu.shyr@vanderbilt.edu>
 Maintainer: Will Gray <w.gray@vanderbilt.edu>
-Depends: R (>= 2.0.0), VICCBiostat
+Depends: R (>= 2.0.0), methods, VICCBiostat
 Suggests: samr, ROC
 Description: Implements Yu Shyr's Weighted Flexible Compound Covariate Method
  in R.
