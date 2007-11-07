@@ -1,8 +1,8 @@
-tests.wfccm <- function(x, grp, tests = c('t', 'ks', 'wilcox', 'sam', 'wga', 'huwright', 'info'), ...)
+tests.wfccm <- function(x, grp, tests = c("t", "ks", "wilcox", "sam", "wga", "huwright", "info"), ...)
 {
     if (length(levels(factor(grp))) != 2)
-        stop('There must be 2 groups for statistical tests.')
-    namemap <- c(t='t', ks='d', wilcox='c', fisher='f')
+        stop("There must be 2 groups for statistical tests.")
+    namemap <- c(t="t", ks="d", wilcox="c", fisher="f")
     tests <- match.arg(tests, several.ok=TRUE)
     n <- dim(x)[1]
     v <- dim(x)[2]
@@ -11,10 +11,10 @@ tests.wfccm <- function(x, grp, tests = c('t', 'ks', 'wilcox', 'sam', 'wga', 'hu
     for (test in tests)
     {
         dat <- list()
-        if (test %in% c('t', 'ks', 'wilcox'))
+        if (test %in% c("t", "ks", "wilcox"))
         {
             dat <- list(c(), c())
-            funcname <- paste(test, 'test', sep='.')
+            funcname <- paste(test, "test", sep=".")
             for (i in 1:v)
             {
                 tmp <- do.call(funcname, list(d[[1]][,i], d[[2]][,i], ...))
@@ -22,12 +22,12 @@ tests.wfccm <- function(x, grp, tests = c('t', 'ks', 'wilcox', 'sam', 'wga', 'hu
                 dat[[2]][i] <- tmp$p.value
             }
             name <- namemap[test]
-            names(dat) <- c(paste(name, 'value', sep='.'), paste('prob', name, sep='.'))
+            names(dat) <- c(paste(name, "value", sep="."), paste("prob", name, sep="."))
             fdr <- fdrAdjustment(dat[[2]])
-            names(fdr) <- paste(names(dat)[2], c('rank', 'fdr'), sep='.')
+            names(fdr) <- paste(names(dat)[2], c("rank", "fdr"), sep=".")
             dat <- cbind(dat, fdr)
         }
-        if (test == 'fisher')
+        if (test == "fisher")
         {
             for (i in 1:v)
             {
@@ -36,36 +36,36 @@ tests.wfccm <- function(x, grp, tests = c('t', 'ks', 'wilcox', 'sam', 'wga', 'hu
                 dat$prob.f[i] <- tmp$p.value
             }
             fdr <- fdrAdjustment(dat[[2]])
-            names(fdr) <- paste(names(dat)[2], c('rank', 'fdr'), sep='.')
+            names(fdr) <- paste(names(dat)[2], c("rank", "fdr"), sep=".")
             dat <- cbind(dat, fdr)
         }
-        if (test %in% c('wga'))
+        if (test %in% c("wga"))
         {
             dat <- list(c())
-            funcname <- paste(test, 'test', sep='.')
+            funcname <- paste(test, "test", sep=".")
             for (i in 1:v)
             {
                 dat[[1]][i] <- do.call(funcname, list(d[[1]][,i], d[[2]][,i]))
             }
             names(dat) <- test
-            dat[[paste(test, 'rank', sep='.')]] <- rank(-dat[[1]])
+            dat[[paste(test, "rank", sep=".")]] <- rank(-dat[[1]])
         }
-        if (test == 'sam')
+        if (test == "sam")
         {
             if (require(samr))
             {
-                tmp <- as.vector(samr(list(x=t(x), y=grp), 'Quantitative', nperms=1, ...)$tt)
+                tmp <- as.vector(samr(list(x=t(x), y=grp), "Quantitative", nperms=1, ...)$tt)
                 dat$sam <- tmp
                 dat$asam <- abs(tmp)
                 dat$asam.rank <- rank(-dat$asam)
             }
         }
-        if (test == 'huwright')
+        if (test == "huwright")
         {
             dat$huwright <- huwright.test(d[[1]],d[[2]])
             dat$huwright.rank <- rank(-dat$huwright)
         }
-        if (test == 'info')
+        if (test == "info")
         {
             for (i in 1:v)
             {
@@ -74,7 +74,7 @@ tests.wfccm <- function(x, grp, tests = c('t', 'ks', 'wilcox', 'sam', 'wga', 'hu
         }
         result <- cbind(result, dat)
     }
-    result <- cbind(result, rank.wfccm(result[,colnames(result)[grep('.rank$', colnames(result))]], ties.break=1))
-    class(result) <- c('tests.wfccm', 'data.frame')
+    result <- cbind(result, rank.wfccm(result[,colnames(result)[grep(".rank$", colnames(result))]], ties.break=1))
+    class(result) <- c("tests.wfccm", "data.frame")
     result
 }

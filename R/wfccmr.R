@@ -3,7 +3,7 @@ wfccmr <- function(data, group, tests=tests.wfccm(data,group), model, testdata=N
     group <- factor(group)
     lvls <- levels(group)
     if (length(lvls) != 2)
-        stop('group information should have 2 levels')
+        stop("group information should have 2 levels")
     results <- list()
     for (i in 1:length(model))
     {

@@ -1,2 +1,2 @@
 .onUnload <- function(libpath)
-    library.dynam.unload('Wfccm', libpath)
+    library.dynam.unload("Wfccm", libpath)

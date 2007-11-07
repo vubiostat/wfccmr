@@ -1,4 +1,4 @@
-useDynLib('Wfccm', fdrAdjust)
+useDynLib("Wfccm", fdrAdjust)
 
 import(methods)
 
@@ -10,7 +10,7 @@ export(distance, fdrAdjustment, filter.wfccm, rank.wfccm, scores.wfccm, sign.wfc
 
 exportClasses(Criteria, CriteriaSet, CriteriaManager, CutoffManager, TopNManager)
 
-exportMethods(coerce, show, '[', '[[', length, names, c, as.Criteria)
+exportMethods(coerce, show, "[", "[[", length, names, c, as.Criteria)
 
 S3method(plot, topn)
 S3method(summary, tests.wfccm)

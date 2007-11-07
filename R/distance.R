@@ -9,24 +9,24 @@ distance <- function(scores, group=NULL, group.1=NA, group.2=NA, verbose=FALSE)
         # forgot one
         if (!is.na(group.1) || !is.na(group.2))
         {
-            stop('Need center of both groups for testing.')
+            stop("Need center of both groups for testing.")
         }
         # forgot both or the group information
         else
         {
-            stop('Need group information for training or center of training groups for testing.')
+            stop("Need group information for training or center of training groups for testing.")
         }
     }
-    # only provided one group's center, but included group information
+    # only provided one group"s center, but included group information
     else if (!is.null(group) && xor(is.na(group.1), is.na(group.2)))
     {
-        warning('Need center of both groups for testing.  Doing training instead.')
+        warning("Need center of both groups for testing.  Doing training instead.")
     }
 
     # should have group information for each score
     if (!is.null(group) && (length(scores) != length(group)))
     {
-        stop('Length of scores and group information do not match.')
+        stop("Length of scores and group information do not match.")
     }
 
     # convert group information to factor

@@ -1,20 +1,20 @@
-setClass('CutoffManager',
-    representation( numPass='numeric',
-                    fdrPass='numeric'),
+setClass("CutoffManager",
+    representation( numPass="numeric",
+                    fdrPass="numeric"),
     prototype(  numPass=1,
                 fdrPass=1),
-    contains='CriteriaManager',
+    contains="CriteriaManager",
     validity=function(object)
     {
         if (length(object@name) != 1)
-            return('there can only be one name')
+            return("there can only be one name")
         if (length(object@wfccmfunction) != 1)
-            return('there can only be one WFCCM function')
+            return("there can only be one WFCCM function")
         if (length(object@prefilter) != 1)
-            return('there can only be one pre-filter function')
-        rankcols <- object@criteria@operator %in% c('ASC', 'DESC')
+            return("there can only be one pre-filter function")
+        rankcols <- object@criteria@operator %in% c("ASC", "DESC")
         if (any(rankcols))
-            return('cannot use ASC or DESC operators for cutoff')
+            return("cannot use ASC or DESC operators for cutoff")
         TRUE
     }
 )
@@ -22,75 +22,75 @@ setClass('CutoffManager',
 # Constructor
 CutoffManager <- function(criteria=Criteria(), name=character(), sign=character(), wfccmfunction=character(), prefilter=character(), permutations=0, numPass=1, fdrPass=1)
 {
-    new('CutoffManager', criteria=criteria, name=name, sign=sign, wfccmfunction=wfccmfunction, prefilter=prefilter, permutations=permutations, numPass=numPass, fdrPass=fdrPass)
+    new("CutoffManager", criteria=criteria, name=name, sign=sign, wfccmfunction=wfccmfunction, prefilter=prefilter, permutations=permutations, numPass=numPass, fdrPass=fdrPass)
 }
 
 # Write
 write.CutoffManager <- function(x, file)
 {
-    cat(x@name, '',
-        x@prefilter, '',
-        x@wfccmfunction, '',
-        paste(x@sign, collapse=' '), '',
-        x@permutations, '',
-        paste(x@criteria, collapse='\n'),
-        paste('numPass', '>=', paste(x@numPass, collapse=', ')),
-        paste('fdrPass', '>=', paste(x@fdrPass, collapse=', ')),
-        file=file, sep='\n')
+    cat(x@name, "",
+        x@prefilter, "",
+        x@wfccmfunction, "",
+        paste(x@sign, collapse=" "), "",
+        x@permutations, "",
+        paste(x@criteria, collapse="\n"),
+        paste("numPass", ">=", paste(x@numPass, collapse=", ")),
+        paste("fdrPass", ">=", paste(x@fdrPass, collapse=", ")),
+        file=file, sep="\n")
 }
 
 # Tests
 is.CutoffManager <- function(x)
 {
-    is(x, 'CutoffManager')
+    is(x, "CutoffManager")
 }
 
 # Coersion
-setAs(from='CutoffManager', to='character',
+setAs(from="CutoffManager", to="character",
     function(from)
     {
         paste(from@name,
             from@prefilter,
             from@wfccmfunction,
-            paste(from@sign, collapse=' '),
+            paste(from@sign, collapse=" "),
             from@permutations,
-            paste(from@criteria, collapse='\n'),
-            paste('numPass', '>=', paste(from@numPass, collapse=', ')),
-            paste('fdrPass', '>=', paste(from@fdrPass, collapse=', ')),
-            sep='\n')
+            paste(from@criteria, collapse="\n"),
+            paste("numPass", ">=", paste(from@numPass, collapse=", ")),
+            paste("fdrPass", ">=", paste(from@fdrPass, collapse=", ")),
+            sep="\n")
     }
 )
 
 # Print
-setMethod('as.character',
-    signature(  x='CutoffManager'),
+setMethod("as.character",
+    signature(  x="CutoffManager"),
     function(x)
     {
-        as(x, 'character')
+        as(x, "character")
     }
 )
 
 # Show
-setMethod('show',
-    signature(  object='CutoffManager'),
+setMethod("show",
+    signature(  object="CutoffManager"),
     function(object)
     {
-        print(paste('', paste('Criteria', object@name), '',
-            paste('Pre-filter:', object@prefilter), '',
-            paste('Function:', object@wfccmfunction), '',
-            paste('Sign:', paste(object@sign, collapse=' ')), '',
-            paste('Distance Permutations:', object@permutations), '',
-            'Criteria:',
-            paste(lapply(object@criteria, as, 'character'), collapse='\n'),
-            paste('numPass','>=', paste(object@numPass, collapse=', ')),
-            paste('fdrPass','>=', paste(object@fdrPass, collapse=', ')),
-            sep='\n'))
+        print(paste("", paste("Criteria", object@name), "",
+            paste("Pre-filter:", object@prefilter), "",
+            paste("Function:", object@wfccmfunction), "",
+            paste("Sign:", paste(object@sign, collapse=" ")), "",
+            paste("Distance Permutations:", object@permutations), "",
+            "Criteria:",
+            paste(lapply(object@criteria, as, "character"), collapse="\n"),
+            paste("numPass",">=", paste(object@numPass, collapse=", ")),
+            paste("fdrPass",">=", paste(object@fdrPass, collapse=", ")),
+            sep="\n"))
     }
 )
 
 # Get combinations
-setMethod('length',
-    signature(  x='CutoffManager'),
+setMethod("length",
+    signature(  x="CutoffManager"),
     function(x)
     {
         prod(sapply(x@criteria@values, length)) * length(x@numPass) * length(x@fdrPass)
@@ -98,24 +98,24 @@ setMethod('length',
 )
 
 # Get CriteriaSet X (1-based)
-setMethod('[[',
-    signature(  x='CutoffManager',
-                i='numeric',
-                j='missing'),
+setMethod("[[",
+    signature(  x="CutoffManager",
+                i="numeric",
+                j="missing"),
     function(x, i, j)
     {
         n <- (i - 1) %/% prod(sapply(x@criteria@values, length))
         pass <-
             if (length(x@numPass) > 0)
-                paste('fdrPass >=', x@fdrPass[n %% length(x@fdrPass) + 1])
+                paste("fdrPass >=", x@fdrPass[n %% length(x@fdrPass) + 1])
             else
-                'fdrPass >= 1'
+                "fdrPass >= 1"
         n <- n %/% length(x@fdrPass)
-        pass <- paste(pass, '&',
+        pass <- paste(pass, "&",
             if (length(x@numPass) > 0)
-                paste('numPass >=', x@numPass[n %% length(x@numPass) + 1])
+                paste("numPass >=", x@numPass[n %% length(x@numPass) + 1])
             else
-                'numPass >= 1'
+                "numPass >= 1"
             )
         CriteriaSet(x@criteria[[i]], pass)
     }

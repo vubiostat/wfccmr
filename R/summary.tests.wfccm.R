@@ -1,8 +1,8 @@
-summary.tests.wfccm <- function(..., file='', sep='\t')
+summary.tests.wfccm <- function(..., file="", sep="\t")
 {
     cutoff <- function(x)
     {
-        cut <- as.double(strsplit(format(x, scientific=TRUE), 'e')[[1]][1])
+        cut <- as.double(strsplit(format(x, scientific=TRUE), "e")[[1]][1])
         cutE <- 10 ** floor(log(x, 10))
         if (cut < 1.5)
             cut <- 1
@@ -20,43 +20,43 @@ summary.tests.wfccm <- function(..., file='', sep='\t')
     l <- length(scores)
     cols <- unique(unlist(lapply(scores, colnames)))
     grpnames <- names(scores)
-    if (is.null(grpnames)) grpnames <- paste('Group', 1:l)
-    cat('', grpnames, file=file, sep='\t', append=FALSE)
-    if ('info' %in% cols)
+    if (is.null(grpnames)) grpnames <- paste("Group", 1:l)
+    cat("", grpnames, file=file, sep="\t", append=FALSE)
+    if ("info" %in% cols)
     {
         table <- matrix(NA,1,l)
-        rownames(table) <- '==0'
+        rownames(table) <- "==0"
         for (i in 1:l)
         {
-            if ('info' %in% colnames(scores[[i]]))
-                table[1,i] <- sum(scores[[i]][,'info'] == 0)
+            if ("info" %in% colnames(scores[[i]]))
+                table[1,i] <- sum(scores[[i]][,"info"] == 0)
         }
-        cat('\n', 'info', '\n', file=file, sep='', append=TRUE)
+        cat("\n", "info", "\n", file=file, sep="", append=TRUE)
         write.table(table, file=file, sep=sep, col.names=FALSE, append=TRUE)
     }
     for (col in cols)
     {
         # columns we know to skip
-        if (col == 'info') next # info
-        if (col == 'sam') next # sam - use |sam|, aka asam
-        if (col == 'ranksum') next
-        if (substr(col, nchar(col)-3, nchar(col)) == 'rank') next # ranks
-        if (substr(col, nchar(col)-4, nchar(col)) == 'value') next # statistics that have a pvalue
+        if (col == "info") next # info
+        if (col == "sam") next # sam - use |sam|, aka asam
+        if (col == "ranksum") next
+        if (substr(col, nchar(col)-3, nchar(col)) == "rank") next # ranks
+        if (substr(col, nchar(col)-4, nchar(col)) == "value") next # statistics that have a pvalue
         table <- matrix(NA,1,l)
         keys <- c()
-        if (substr(col, 1, 5) == 'prob.')
+        if (substr(col, 1, 5) == "prob.")
         {
-            rownames(table) <- 'Min'
+            rownames(table) <- "Min"
             mode <- 1
             dec <- FALSE
-            op <- '<'
+            op <- "<"
         }
         else
         {
-            rownames(table) <- 'Max'
+            rownames(table) <- "Max"
             mode <- 2
             dec <- TRUE
-            op <- '>'
+            op <- ">"
         }
         for (i in 1:l)
         {
@@ -93,7 +93,7 @@ summary.tests.wfccm <- function(..., file='', sep='\t')
         }
         table2 <- as.matrix(table2[which(apply(diff(table2), 1, sum) > 0) + 1,])
         table <- rbind(table2, table)
-        cat('\n', col, '\n', file=file, sep='', append=TRUE)
+        cat("\n", col, "\n", file=file, sep="", append=TRUE)
         write.table(table, file=file, sep=sep, col.names=FALSE, append=TRUE)
     }
 }

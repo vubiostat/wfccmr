@@ -1,31 +1,31 @@
-setClass('Criteria',
-    representation( name='character',
-                    operator='character',
-                    values='list'),
+setClass("Criteria",
+    representation( name="character",
+                    operator="character",
+                    values="list"),
     prototype(  name=character(),
                 operator=character(),
                 values=list()),
     validity=function(object)
     {
-        rankcols <- object@operator %in% c('ASC', 'DESC')
+        rankcols <- object@operator %in% c("ASC", "DESC")
         cutcols <- which(!rankcols)
         rankcols <- which(rankcols)
         if (length(object@name) != length(object@operator))
-            return('there must be one name for each operator and vice versa')
+            return("there must be one name for each operator and vice versa")
         if (!all(sapply(object@values, is.numeric)))
-            return('cutoff values must be numeric')
+            return("cutoff values must be numeric")
         if(any(duplicated(paste(object@name, object@operator))))
-            return('combine duplicate names')
+            return("combine duplicate names")
         if ((length(object@values[cutcols]) > 0) &&
             any(is.na(unlist(object@values[cutcols]))))
-            return('NA is not a valid cutoff for operators')
-        if (!all(object@operator %in% c('>', '>=', '<', '<=', '!=', '==', 'ASC', 'DESC')))
-            return('operator is invalid')
+            return("NA is not a valid cutoff for operators")
+        if (!all(object@operator %in% c(">", ">=", "<", "<=", "!=", "==", "ASC", "DESC")))
+            return("operator is invalid")
         if ((length(object@values[rankcols]) > 0) &&
             (   any(sapply(object@values[rankcols], length) != 1) ||
                 !all(is.na(unlist(object@values[rankcols])))
             ))
-            return('ASC and DESC must have a single NA cutoff')
+            return("ASC and DESC must have a single NA cutoff")
         TRUE
     }
 )
@@ -43,81 +43,81 @@ Criteria <- function(name=character(), operator=character(), values=list())
     len <- length(name)
     operator <- rep(operator, length.out=len)
     values <- rep(values, length.out=len)
-    new('Criteria', name=as.character(name), operator=as.character(operator), values=lapply(values, as.numeric))
+    new("Criteria", name=as.character(name), operator=as.character(operator), values=lapply(values, as.numeric))
 }
 
 # Tests
 is.Criteria <- function(x)
 {
-    is(x, 'Criteria')
+    is(x, "Criteria")
 }
 
 # Coersion
 # Criteria as.character
-setAs(from='Criteria', to='character',
+setAs(from="Criteria", to="character",
     function(from)
     {
-        result <- paste(from@name, from@operator, sapply(from@values, paste, collapse=' '))
+        result <- paste(from@name, from@operator, sapply(from@values, paste, collapse=" "))
         names(result) <- from@name
         result
     }
 )
-setMethod('as.character',
-    signature(  x='Criteria'),
+setMethod("as.character",
+    signature(  x="Criteria"),
     function(x)
     {
-        as(x, 'character')
+        as(x, "character")
     }
 )
 # character as.Criteria
-setGeneric('as.Criteria', function(x)
+setGeneric("as.Criteria", function(x)
     {
-        standardGeneric('as.Criteria')
+        standardGeneric("as.Criteria")
     }
 )
-setAs(from='character', to='Criteria',
+setAs(from="character", to="Criteria",
     function(from)
     {
         # get a single space around the operator
-        from <- sub('([[:space:]]*(>=?|<=?|!=|==)[[:space:]]*)', ' \\1 ', from)
+        from <- sub("([[:space:]]*(>=?|<=?|!=|==)[[:space:]]*)", " \\1 ", from)
         # make multiple spaces a single
-        from <- gsub('[[:space:]]+', ' ', from)
+        from <- gsub("[[:space:]]+", " ", from)
         # split on spaces
-        split <- strsplit(from, ' ')
-        name <- sapply(split, '[', 1)
-        oper <- sapply(split, '[', 2)
-        valus <- sapply(sapply(split, '[', -c(1,2)), as.numeric)
+        split <- strsplit(from, " ")
+        name <- sapply(split, "[", 1)
+        oper <- sapply(split, "[", 2)
+        valus <- sapply(sapply(split, "[", -c(1,2)), as.numeric)
         Criteria(name, oper, valus)
     }
 )
-setMethod('as.Criteria',
-    signature(  x='ANY'),
+setMethod("as.Criteria",
+    signature(  x="ANY"),
     function(x)
     {
-        as(x, 'Criteria')
+        as(x, "Criteria")
     }
 )
 
 # Show
-setMethod('show',
-    signature(  object='Criteria'),
+setMethod("show",
+    signature(  object="Criteria"),
     function(object)
     {
-        print(as(object,'character'))
+        print(as(object,"character"))
     }
 )
 
 # Names
-setMethod('names',
-    signature(  x='Criteria'),
+setMethod("names",
+    signature(  x="Criteria"),
     function(x)
     {
         x@name
     }
 )
-setReplaceMethod('names',
-    signature(  x='Criteria',
-                value='character'),
+setReplaceMethod("names",
+    signature(  x="Criteria",
+                value="character"),
     function(x, value)
     {
         x@name <- rep(c(value, NA), length.out=length(x@name))
@@ -126,30 +126,30 @@ setReplaceMethod('names',
 )
 
 # Length
-setMethod('length',
-    signature(  x='Criteria'),
+setMethod("length",
+    signature(  x="Criteria"),
     function(x)
     {
         length(x@name)
     }
 )
-setReplaceMethod('length',
-    signature(  x='Criteria',
-                value='ANY'),
+setReplaceMethod("length",
+    signature(  x="Criteria",
+                value="ANY"),
     function(x, value)
     {
-        stop('operation not supported.')
+        stop("operation not supported.")
     }
 )
 
 # Concatenate
-setMethod('c',
-    signature(  x='Criteria',
-                recursive='missing'),
+setMethod("c",
+    signature(  x="Criteria",
+                recursive="missing"),
     function(x, ..., recursive)
     {
         l <- list(...)
-        l <- sapply(l[sapply(l, canCoerce, 'Criteria')], as.Criteria)
+        l <- sapply(l[sapply(l, canCoerce, "Criteria")], as.Criteria)
         name <- sapply(l, function(x) x@name)
         oper <- sapply(l, function(x) x@operator)
         valus <- sapply(l, function(x) x@values)
@@ -158,10 +158,10 @@ setMethod('c',
 )
 
 # Vector
-setClassUnion('maybeNumber', c('numeric', 'logical'))
-setMethod('[',
-    signature(  x='Criteria',
-                i='character'),
+setClassUnion("maybeNumber", c("numeric", "logical"))
+setMethod("[",
+    signature(  x="Criteria",
+                i="character"),
     function(x, i, j, drop)
     {
         idx <- which(x@name %in% i)
@@ -171,39 +171,39 @@ setMethod('[',
             x[idx, j]
     }
 )
-setMethod('[',
-    signature(  x='Criteria',
-                i='missing'),
+setMethod("[",
+    signature(  x="Criteria",
+                i="missing"),
     function(x, i, j, drop)
     {
         if (length(j) < length(x))
-            stop('not enough elements in j')
+            stop("not enough elements in j")
         if (length(j) > length(x))
             j <- j[1:length(x)]
-        Criteria(x@name, x@operator, mapply('[', x@values, j, SIMPLIFY=FALSE))
+        Criteria(x@name, x@operator, mapply("[", x@values, j, SIMPLIFY=FALSE))
     }
 )
-setMethod('[',
-    signature(  x='Criteria',
-                i='maybeNumber',
-                j='missing'),
+setMethod("[",
+    signature(  x="Criteria",
+                i="maybeNumber",
+                j="missing"),
     function(x, i, j, drop)
     {
         Criteria(x@name[i], x@operator[i], x@values[i])
     }
 )
-setMethod('[',
-    signature(  x='Criteria',
-                i='missing',
-                j='missing'),
+setMethod("[",
+    signature(  x="Criteria",
+                i="missing",
+                j="missing"),
     function(x, i, j, drop)
     {
         x
     }
 )
-setMethod('[',
-    signature(  x='Criteria',
-                i='maybeNumber'),
+setMethod("[",
+    signature(  x="Criteria",
+                i="maybeNumber"),
     function(x, i, j, drop)
     {
         if (length((1:length(x))[i]) == 1 && !missing(j))
@@ -213,15 +213,15 @@ setMethod('[',
         else
         {
             if (!missing(j))
-                warning('second argument to extractor function ignored')
+                warning("second argument to extractor function ignored")
             x[i]
         }
     }
 )
-setReplaceMethod('[',
-    signature(  x='Criteria',
-                i='character',
-                value='Criteria'),
+setReplaceMethod("[",
+    signature(  x="Criteria",
+                i="character",
+                value="Criteria"),
     function(x, i, j, value)
     {
         idx <- which(x@name %in% i)
@@ -232,11 +232,11 @@ setReplaceMethod('[',
         x
     }
 )
-setReplaceMethod('[',
-    signature(  x='Criteria',
-                i='maybeNumber',
-                j='missing',
-                value='Criteria'),
+setReplaceMethod("[",
+    signature(  x="Criteria",
+                i="maybeNumber",
+                j="missing",
+                value="Criteria"),
     function(x, i, j, value)
     {
         x@name[i] <- value@name
@@ -245,11 +245,11 @@ setReplaceMethod('[',
         x
     }
 )
-setReplaceMethod('[',
-    signature(  x='Criteria',
-                i='missing',
-                j='missing',
-                value='Criteria'),
+setReplaceMethod("[",
+    signature(  x="Criteria",
+                i="missing",
+                j="missing",
+                value="Criteria"),
     function(x, i, j, value)
     {
         x@name[] <- value@name
@@ -258,10 +258,10 @@ setReplaceMethod('[',
         x
     }
 )
-setReplaceMethod('[',
-    signature(  x='Criteria',
-                i='maybeNumber',
-                value='Criteria'),
+setReplaceMethod("[",
+    signature(  x="Criteria",
+                i="maybeNumber",
+                value="Criteria"),
     function(x, i, j, value)
     {
         if (length((1:length(x))[i]) == 1 && !missing(j))
@@ -269,14 +269,14 @@ setReplaceMethod('[',
         else
         {
             if (!missing(j))
-                warning('second argument to replacement function ignored')
+                warning("second argument to replacement function ignored")
             x[i] <- value
         }
         x
     }
 )
-setReplaceMethod('[',
-    signature(  x='Criteria'),
+setReplaceMethod("[",
+    signature(  x="Criteria"),
     function(x, i, j, value)
     {
         if (missing(i) && missing(j))
@@ -290,10 +290,10 @@ setReplaceMethod('[',
 )
 
 # Get combination X (1-based) of criteria
-setMethod('[[',
-    signature(  x='Criteria',
-                i='numeric',
-                j='missing'),
+setMethod("[[",
+    signature(  x="Criteria",
+                i="numeric",
+                j="missing"),
     function(x, i, j)
     {
         base <- cumprod(c(1, sapply(x@values, length)))
