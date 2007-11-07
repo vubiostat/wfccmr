@@ -1,6 +1,6 @@
 \docType{package}
-\name{WfccmR-package}
-\alias{WfccmR-package}
+\name{Wfccm-package}
+\alias{Wfccm-package}
 \title{Weighted Flexible Compound Covariate Method}
 \description{
   %TODO: Update this section

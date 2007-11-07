@@ -4,12 +4,9 @@
 \description{
   Run distance on a set of sample scores.
 }
-\synopsis{
-  distance(scores, group = NULL, group.1 = NA, group.2 = NA, verbose = FALSE)
-}
 \usage{
-  distance(scores, group, verbose = FALSE)
-  distance(scores, group.1=, group.2=, verbose = FALSE)
+  distance(scores, group = NULL, group.1 = NA, group.2 = NA, verbose = FALSE)
+
 }
 \arguments{
   \item{scores}{numeric vector of scores for a set of samples.}
@@ -19,6 +16,16 @@
   \item{verbose}{boolean. If \code{TRUE}, include full table of output; otherwise, just the classification predictions.}
 }
 \details{
+  For a training cohort, pass the scores and group classification
+  \preformatted{
+distance(scores, group, \dots)
+}
+
+  For a testing cohort, pass the means of the two groups from the training cohort
+  \preformatted{
+distance(scores, group.1, group.2, \dots)
+}
+
   Uses simple distance on a set of data to do two-class classification.  For training data, you only need the scores and true classification.  For testing data, you only need the scores and group means of the training data.  Optionally, you may include the true classification for the testing data to get classification accuracy.
 }
 \value{
