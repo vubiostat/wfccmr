@@ -1,6 +1,7 @@
 setClass("TopNManager",
     representation( topN="numeric"),
-    prototype(  topN=200),
+    prototype(  name="top200",
+                topN=200),
     contains="CriteriaManager",
     validity=function(object)
     {
@@ -17,10 +18,8 @@ setClass("TopNManager",
 )
 
 # Constructor
-TopNManager <- function(criteria=Criteria(), name=character(), sign=character(), wfccmfunction=character(), prefilter=character(), permutations=0, topN=100)
-{
-    new("TopNManager", criteria=criteria, name=paste("top",topN,sep=""), sign=sign, wfccmfunction=wfccmfunction, prefilter=prefilter, permutations=permutations, topN=topN)
-}
+TopNManager <- function(criteria=Criteria(), name=paste("top",topN,sep=""), sign="", wfccmfunction="", prefilter="", permutations=0, topN=100)
+new("TopNManager", criteria=criteria, name=name, sign=sign, wfccmfunction=wfccmfunction, prefilter=prefilter, permutations=permutations, topN=topN)
 
 # Write
 write.TopNManager <- function(x, file)
@@ -35,10 +34,7 @@ write.TopNManager <- function(x, file)
 }
 
 # Tests
-is.TopNManager <- function(x)
-{
-    is(x, "TopNManager")
-}
+is.TopNManager <- function(x)  is(x, "TopNManager")
 
 # Coersion
 setAs(from="TopNManager", to="character",
@@ -57,10 +53,7 @@ setAs(from="TopNManager", to="character",
 # Print
 setMethod("as.character",
     signature(  x="TopNManager"),
-    function(x)
-    {
-        as(x, "character")
-    }
+    function(x)  as(x, "character")
 )
 
 # Show
@@ -68,13 +61,14 @@ setMethod("show",
     signature(  object="TopNManager"),
     function(object)
     {
-        print(paste("", paste("Criteria", paste("top", object@topN, sep="")), "",
+        cat(paste("", paste("Criteria", paste("top", object@topN, sep="")), "",
             paste("Pre-filter:", object@prefilter), "",
             paste("Function:", object@wfccmfunction), "",
             paste("Sign:", paste(object@sign, collapse=" ")), "",
             paste("Distance Permutations:", object@permutations), "",
             "Criteria:",
-            paste(lapply(object@criteria, as, "character"), collapse="\n"),
+            paste(as(object@criteria, "character"), collapse="\n"),
+            "","",
             sep="\n"))
     }
 )
@@ -82,10 +76,7 @@ setMethod("show",
 # Get combinations
 setMethod("length",
     signature(  x="TopNManager"),
-    function(x)
-    {
-        x@topN
-    }
+    function(x)  x@topN
 )
 setReplaceMethod("length",
     signature(  x="TopNManager",

@@ -11,7 +11,9 @@ setClass("Criteria",
         cutcols <- which(!rankcols)
         rankcols <- which(rankcols)
         if (length(object@name) != length(object@operator))
-            return("there must be one name for each operator and vice versa")
+            return("there must be one name for each operator and vice versa"
+        if (length(object@name) != length(object@values))
+            return("there must be values for each name and vice versa"
         if (!all(sapply(object@values, is.numeric)))
             return("cutoff values must be numeric")
         if(any(duplicated(paste(object@name, object@operator))))
@@ -47,10 +49,7 @@ Criteria <- function(name=character(), operator=character(), values=list())
 }
 
 # Tests
-is.Criteria <- function(x)
-{
-    is(x, "Criteria")
-}
+is.Criteria <- function(x)  is(x, "Criteria")
 
 # Coersion
 # Criteria as.character
@@ -64,16 +63,11 @@ setAs(from="Criteria", to="character",
 )
 setMethod("as.character",
     signature(  x="Criteria"),
-    function(x)
-    {
-        as(x, "character")
-    }
+    function(x)  as(x, "character")
 )
 # character as.Criteria
-setGeneric("as.Criteria", function(x)
-    {
-        standardGeneric("as.Criteria")
-    }
+setGeneric("as.Criteria",
+    function(x)  standardGeneric("as.Criteria")
 )
 setAs(from="character", to="Criteria",
     function(from)
@@ -92,28 +86,19 @@ setAs(from="character", to="Criteria",
 )
 setMethod("as.Criteria",
     signature(  x="ANY"),
-    function(x)
-    {
-        as(x, "Criteria")
-    }
+    function(x)  as(x, "Criteria")
 )
 
 # Show
 setMethod("show",
     signature(  object="Criteria"),
-    function(object)
-    {
-        print(as(object,"character"))
-    }
+    function(object)  print(as(object, "character"))
 )
 
 # Names
 setMethod("names",
     signature(  x="Criteria"),
-    function(x)
-    {
-        x@name
-    }
+    function(x)  x@name
 )
 setReplaceMethod("names",
     signature(  x="Criteria",
@@ -128,18 +113,12 @@ setReplaceMethod("names",
 # Length
 setMethod("length",
     signature(  x="Criteria"),
-    function(x)
-    {
-        length(x@name)
-    }
+    function(x)  length(x@name)
 )
 setReplaceMethod("length",
     signature(  x="Criteria",
                 value="ANY"),
-    function(x, value)
-    {
-        stop("operation not supported.")
-    }
+    function(x, value)  stop("operation not supported.")
 )
 
 # Concatenate
@@ -163,7 +142,6 @@ setMethod("c",
 )
 
 # Vector
-setClassUnion("maybeNumber", c("numeric", "logical"))
 setMethod("[",
     signature(  x="Criteria",
                 i="character"),
@@ -190,7 +168,7 @@ setMethod("[",
 )
 setMethod("[",
     signature(  x="Criteria",
-                i="maybeNumber",
+                i="numeric",
                 j="missing"),
     function(x, i, j, drop)
     {
@@ -201,14 +179,11 @@ setMethod("[",
     signature(  x="Criteria",
                 i="missing",
                 j="missing"),
-    function(x, i, j, drop)
-    {
-        x
-    }
+    function(x, i, j, drop)  x
 )
 setMethod("[",
     signature(  x="Criteria",
-                i="maybeNumber"),
+                i="numeric"),
     function(x, i, j, drop)
     {
         if (length((1:length(x))[i]) == 1 && !missing(j))
@@ -239,7 +214,7 @@ setReplaceMethod("[",
 )
 setReplaceMethod("[",
     signature(  x="Criteria",
-                i="maybeNumber",
+                i="numeric",
                 j="missing",
                 value="Criteria"),
     function(x, i, j, value)
@@ -265,7 +240,7 @@ setReplaceMethod("[",
 )
 setReplaceMethod("[",
     signature(  x="Criteria",
-                i="maybeNumber",
+                i="numeric",
                 value="Criteria"),
     function(x, i, j, value)
     {

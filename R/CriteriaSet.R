@@ -2,7 +2,7 @@ setClass("CriteriaSet",
     representation( criteria="Criteria",
                     pass="character"),
     prototype(  criteria=Criteria(),
-                pass=character()),
+                pass=""),
     validity=function(object)
     {
         if (any(sapply(object@criteria@values, length) != 1))
@@ -14,7 +14,7 @@ setClass("CriteriaSet",
 )
 
 # Constructor
-CriteriaSet <- function(criteria=Criteria(), pass=character())
+CriteriaSet <- function(criteria=Criteria(), pass="")
 {
     if (length(pass) > 1)
         warning("only the first element of pass is used, all others are ignored")
@@ -22,42 +22,27 @@ CriteriaSet <- function(criteria=Criteria(), pass=character())
 }
 
 # Tests
-is.CriteriaSet <- function(x)
-{
-    is(x, "CriteriaSet")
-}
+is.CriteriaSet <- function(x)  is(x, "CriteriaSet")
 
 # Coersion
 setAs(from="CriteriaSet", to="character",
-    function(from)
-    {
-        paste(paste(from@criteria, collapse="\n"), from@pass, "", sep="\n")
-    }
+    function(from)  paste(paste(from@criteria, collapse="\n"), from@pass, "", sep="\n")
 )
 setMethod("as.character",
     signature(  x="CriteriaSet"),
-    function(x)
-    {
-        as(x, "character")
-    }
+    function(x)  as(x, "character")
 )
 
 # Show
 setMethod("show",
     signature(  object="CriteriaSet"),
-    function(object)
-    {
-        cat(as(object,"character"))
-    }
+    function(object)  cat(as(object, "character"))
 )
 
 # Names
 setMethod("names",
     signature(  x="CriteriaSet"),
-    function(x)
-    {
-        x@criteria@name
-    }
+    function(x)  x@criteria@name
 )
 setReplaceMethod("names",
     signature(  x="CriteriaSet",

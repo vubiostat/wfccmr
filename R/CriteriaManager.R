@@ -7,10 +7,10 @@ setClass("CriteriaManager",
                     permutations="numeric",
                     "VIRTUAL"),
     prototype(  criteria=Criteria(),
-                name=character(),
-                sign=character(),
-                wfccmfunction=character(),
-                prefilter=character(),
+                name="criteria",
+                sign="",
+                wfccmfunction="",
+                prefilter="",
                 permutations=0),
     validity=function(object)
     {
@@ -27,10 +27,8 @@ setClass("CriteriaManager",
 )
 
 # Constructor
-CriteriaManager <- function(criteria=Criteria(), name=character(), sign=character(), wfccmfunction=character(), prefilter=character(), permutations=0)
-{
-    new("CriteriaManager", criteria=criteria, name=name, sign=sign, wfccmfunction=wfccmfunction, prefilter=prefilter, permutations=permutations)
-}
+CriteriaManager <- function(criteria=Criteria(), name="criteria", sign="", wfccmfunction="", prefilter="", permutations=0)
+new("CriteriaManager", criteria=criteria, name=name, sign=sign, wfccmfunction=wfccmfunction, prefilter=prefilter, permutations=permutations)
 
 # Write
 write.CriteriaManager <- function(x, file)
@@ -75,10 +73,7 @@ read.CriteriaManager <- function(file)
 }
 
 # Tests
-is.CriteriaManager <- function(x)
-{
-    is(x, "CriteriaManager")
-}
+is.CriteriaManager <- function(x)  is(x, "CriteriaManager")
 
 # Coersion
 setAs(from="CriteriaManager", to="character",
@@ -95,10 +90,7 @@ setAs(from="CriteriaManager", to="character",
 )
 setMethod("as.character",
     signature(  x="CriteriaManager"),
-    function(x)
-    {
-        as(x, "character")
-    }
+    function(x)  as(x, "character")
 )
 
 # Show
@@ -106,13 +98,14 @@ setMethod("show",
     signature(  object="CriteriaManager"),
     function(object)
     {
-        print(paste("", paste("Criteria", from@name), "",
+        cat(paste("", paste("Criteria", from@name), "",
             paste("Pre-filter:", from@prefilter), "",
             paste("Function:", from@wfccmfunction), "",
             paste("Sign:", paste(from@sign, collapse=" ")), "",
             paste("Distance Permutations:", from@permutations), "",
             "Criteria:",
-            paste(lapply(from@criteria, as, "character"), collapse="\n"),
+            paste(as(from@criteria, "character"), collapse="\n"),
+            "", "",
             sep="\n"))
     }
 )
@@ -120,10 +113,7 @@ setMethod("show",
 # Names
 setMethod("names",
     signature(  x="CriteriaManager"),
-    function(x)
-    {
-        x@name
-    }
+    function(x)  x@name
 )
 setReplaceMethod("names",
     signature(  x="CriteriaManager",
@@ -138,24 +128,15 @@ setReplaceMethod("names",
 # Length
 setMethod("length",
     signature(  x="CriteriaManager"),
-    function(x)
-    {
-        stop("operation not supported.")
-    }
+    function(x)  stop("operation not supported.")
 )
 setReplaceMethod("length",
     signature(  x="CriteriaManager"),
-    function(x, value)
-    {
-        stop("operation not supported.")
-    }
+    function(x, value)  stop("operation not supported.")
 )
 
 # Get CriteriaSet X (1-based)
 setMethod("[[",
     signature(  x="CriteriaManager"),
-    function(x, i, j)
-    {
-        stop("operation not supported.")
-    }
+    function(x, i, j)  stop("operation not supported.")
 )

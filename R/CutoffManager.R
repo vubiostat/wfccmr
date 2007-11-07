@@ -1,7 +1,8 @@
 setClass("CutoffManager",
     representation( numPass="numeric",
                     fdrPass="numeric"),
-    prototype(  numPass=1,
+    prototype(  name="cutoff",
+                numPass=1,
                 fdrPass=1),
     contains="CriteriaManager",
     validity=function(object)
@@ -20,10 +21,8 @@ setClass("CutoffManager",
 )
 
 # Constructor
-CutoffManager <- function(criteria=Criteria(), name=character(), sign=character(), wfccmfunction=character(), prefilter=character(), permutations=0, numPass=1, fdrPass=1)
-{
-    new("CutoffManager", criteria=criteria, name=name, sign=sign, wfccmfunction=wfccmfunction, prefilter=prefilter, permutations=permutations, numPass=numPass, fdrPass=fdrPass)
-}
+CutoffManager <- function(criteria=Criteria(), name="cutoff", sign="", wfccmfunction="", prefilter="", permutations=10000, numPass=1, fdrPass=1)
+new("CutoffManager", criteria=criteria, name=name, sign=sign, wfccmfunction=wfccmfunction, prefilter=prefilter, permutations=permutations, numPass=numPass, fdrPass=fdrPass)
 
 # Write
 write.CutoffManager <- function(x, file)
@@ -40,10 +39,7 @@ write.CutoffManager <- function(x, file)
 }
 
 # Tests
-is.CutoffManager <- function(x)
-{
-    is(x, "CutoffManager")
-}
+is.CutoffManager <- function(x)  is(x, "CutoffManager")
 
 # Coersion
 setAs(from="CutoffManager", to="character",
@@ -64,10 +60,7 @@ setAs(from="CutoffManager", to="character",
 # Print
 setMethod("as.character",
     signature(  x="CutoffManager"),
-    function(x)
-    {
-        as(x, "character")
-    }
+    function(x)  as(x, "character")
 )
 
 # Show
@@ -75,15 +68,16 @@ setMethod("show",
     signature(  object="CutoffManager"),
     function(object)
     {
-        print(paste("", paste("Criteria", object@name), "",
+        cat(paste("", paste("Criteria", object@name), "",
             paste("Pre-filter:", object@prefilter), "",
             paste("Function:", object@wfccmfunction), "",
             paste("Sign:", paste(object@sign, collapse=" ")), "",
             paste("Distance Permutations:", object@permutations), "",
             "Criteria:",
-            paste(lapply(object@criteria, as, "character"), collapse="\n"),
+            paste(as(object@criteria, "character"), collapse="\n"),
             paste("numPass",">=", paste(object@numPass, collapse=", ")),
             paste("fdrPass",">=", paste(object@fdrPass, collapse=", ")),
+            "", "",
             sep="\n"))
     }
 )
@@ -93,7 +87,10 @@ setMethod("length",
     signature(  x="CutoffManager"),
     function(x)
     {
-        prod(sapply(x@criteria@values, length)) * length(x@numPass) * length(x@fdrPass)
+        if (length(x@criteria@values) == 0)
+            0
+        else
+            prod(sapply(x@criteria@values, length)) * length(x@numPass) * length(x@fdrPass)
     }
 )
 
