@@ -81,7 +81,7 @@ setMethod('show',
             paste('Sign:', paste(object@sign, collapse=' ')), '',
             paste('Distance Permutations:', object@permutations), '',
             'Criteria:',
-            paste(lapply(object@criteria, as.character), collapse='\n'),
+            paste(lapply(object@criteria, as, 'character'), collapse='\n'),
             paste('numPass','>=', paste(object@numPass, collapse=', ')),
             paste('fdrPass','>=', paste(object@fdrPass, collapse=', ')),
             sep='\n'))

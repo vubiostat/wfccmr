@@ -91,7 +91,7 @@ setAs(from='character', to='Criteria',
     }
 )
 setMethod('as.Criteria',
-    signature(  x='character'),
+    signature(  x='ANY'),
     function(x)
     {
         as(x, 'Criteria')
@@ -103,7 +103,7 @@ setMethod('show',
     signature(  object='Criteria'),
     function(object)
     {
-        print(as.character(object))
+        print(as(object,'character'))
     }
 )
 
@@ -149,10 +149,10 @@ setMethod('c',
     function(x, ..., recursive)
     {
         l <- list(...)
-        l <- l[sapply(l, is.Criteria)]
+        l <- sapply(l[sapply(l, canCoerce, 'Criteria')], as.Criteria)
         name <- sapply(l, function(x) x@name)
         oper <- sapply(l, function(x) x@operator)
-        valus <- lapply(l, function(x) x@values)
+        valus <- sapply(l, function(x) x@values)
         Criteria(c(x@name, name), c(x@operator, oper), c(x@values, valus))
     }
 )
@@ -296,13 +296,8 @@ setMethod('[[',
                 j='missing'),
     function(x, i, j)
     {
-        i <- (i - 1) %% prod(sapply(x@values, length))
-        idx <- rep(0, length(x@values))
-        for (k in 1:length(x@values))
-        {
-            idx[k] <- x@values[i %% length(x@values[[k]]) + 1]
-            i <- i %/% x@values[[k]]
-        }
+        base <- cumprod(c(1, sapply(x@values, length)))
+        idx <- diff((i - 1) %% base) %/% base[-length(x@values)] + 1
         x[, idx]
     }
 )

@@ -47,7 +47,7 @@ setMethod('show',
     signature(  object='CriteriaSet'),
     function(object)
     {
-        cat(as.character(object))
+        cat(as(object,'character'))
     }
 )
 

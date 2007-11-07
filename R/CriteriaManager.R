@@ -112,7 +112,7 @@ setMethod('show',
             paste('Sign:', paste(from@sign, collapse=' ')), '',
             paste('Distance Permutations:', from@permutations), '',
             'Criteria:',
-            paste(lapply(from@criteria, as.character), collapse='\n'),
+            paste(lapply(from@criteria, as, 'character'), collapse='\n'),
             sep='\n'))
     }
 )
