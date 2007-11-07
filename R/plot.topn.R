@@ -1,4 +1,4 @@
-plot.topn <- function(x, sub='', show.grid=TRUE, show.legend=TRUE)
+plot.topn <- function(x, sub='', show.grid=TRUE, show.legend=TRUE, ...)
 {
     l <- length(x)
     f1 <- function(x) x$training$accuracy

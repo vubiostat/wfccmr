@@ -24,7 +24,7 @@ tests.wfccm <- function(x, grp, tests = c('t', 'ks', 'wilcox', 'sam', 'wga', 'hu
             name <- namemap[test]
             names(dat) <- c(paste(name, 'value', sep='.'), paste('prob', name, sep='.'))
             fdr <- fdrAdjustment(dat[[2]])
-            names(fdr) <- paste(names(dat)[2], c('rank', 'adj'), sep='.')
+            names(fdr) <- paste(names(dat)[2], c('rank', 'fdr'), sep='.')
             dat <- cbind(dat, fdr)
         }
         if (test == 'fisher')
@@ -36,7 +36,7 @@ tests.wfccm <- function(x, grp, tests = c('t', 'ks', 'wilcox', 'sam', 'wga', 'hu
                 dat$prob.f[i] <- tmp$p.value
             }
             fdr <- fdrAdjustment(dat[[2]])
-            names(fdr) <- paste(names(dat)[2], c('rank', 'adj'), sep='.')
+            names(fdr) <- paste(names(dat)[2], c('rank', 'fdr'), sep='.')
             dat <- cbind(dat, fdr)
         }
         if (test %in% c('wga'))
