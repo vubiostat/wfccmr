@@ -149,11 +149,16 @@ setMethod("c",
     function(x, ..., recursive)
     {
         l <- list(...)
-        l <- sapply(l[sapply(l, canCoerce, "Criteria")], as.Criteria)
-        name <- sapply(l, function(x) x@name)
-        oper <- sapply(l, function(x) x@operator)
-        valus <- sapply(l, function(x) x@values)
-        Criteria(c(x@name, name), c(x@operator, oper), c(x@values, valus))
+        if (length(l) > 0)
+        {
+            l <- sapply(l[sapply(l, canCoerce, "Criteria")], as.Criteria)
+            name <- sapply(l, function(x) x@name)
+            oper <- sapply(l, function(x) x@operator)
+            valus <- sapply(l, function(x) x@values)
+            Criteria(c(x@name, name), c(x@operator, oper), c(x@values, valus))
+        }
+        else
+            x
     }
 )
 
