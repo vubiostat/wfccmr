@@ -38,7 +38,7 @@ write.CriteriaManager <- function(x, file)
         x@wfccmfunction, "",
         paste(x@sign, collapse=" "), "",
         x@permutations, "",
-        paste(x@criteria, collapse="\n"),
+        as(x@criteria, "character"),
         file=file, sep="\n")
 }
 
@@ -104,7 +104,7 @@ setMethod("show",
             paste("Sign:", paste(from@sign, collapse=" ")), "",
             paste("Distance Permutations:", from@permutations), "",
             "Criteria:",
-            paste(as(from@criteria, "character"), collapse="\n"),
+            as(from@criteria, "character"),
             "", "",
             sep="\n"))
     }

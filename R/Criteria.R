@@ -11,9 +11,9 @@ setClass("Criteria",
         cutcols <- which(!rankcols)
         rankcols <- which(rankcols)
         if (length(object@name) != length(object@operator))
-            return("there must be one name for each operator and vice versa"
+            return("there must be one name for each operator and vice versa")
         if (length(object@name) != length(object@values))
-            return("there must be values for each name and vice versa"
+            return("there must be values for each name and vice versa")
         if (!all(sapply(object@values, is.numeric)))
             return("cutoff values must be numeric")
         if(any(duplicated(paste(object@name, object@operator))))
@@ -92,7 +92,7 @@ setMethod("as.Criteria",
 # Show
 setMethod("show",
     signature(  object="Criteria"),
-    function(object)  print(as(object, "character"))
+    function(object)  cat("", as(object, "character"), "", sep="\n")
 )
 
 # Names
@@ -277,7 +277,9 @@ setMethod("[[",
     function(x, i, j)
     {
         base <- cumprod(c(1, sapply(x@values, length)))
-        idx <- diff((i - 1) %% base) %/% base[-length(x@values)] + 1
+        print(base)
+        idx <- diff((i - 1) %% base) %/% base[-(length(x@values)+1)] + 1
+        print(idx)
         x[, idx]
     }
 )

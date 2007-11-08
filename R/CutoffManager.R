@@ -32,9 +32,9 @@ write.CutoffManager <- function(x, file)
         x@wfccmfunction, "",
         paste(x@sign, collapse=" "), "",
         x@permutations, "",
-        paste(x@criteria, collapse="\n"),
-        paste("numPass", ">=", paste(x@numPass, collapse=", ")),
-        paste("fdrPass", ">=", paste(x@fdrPass, collapse=", ")),
+        as(x@criteria, "character"),
+        paste("numPass", ">=", paste(x@numPass, collapse=" ")),
+        paste("fdrPass", ">=", paste(x@fdrPass, collapse=" ")),
         file=file, sep="\n")
 }
 
@@ -51,8 +51,8 @@ setAs(from="CutoffManager", to="character",
             paste(from@sign, collapse=" "),
             from@permutations,
             paste(from@criteria, collapse="\n"),
-            paste("numPass", ">=", paste(from@numPass, collapse=", ")),
-            paste("fdrPass", ">=", paste(from@fdrPass, collapse=", ")),
+            paste("numPass", ">=", paste(from@numPass, collapse=" ")),
+            paste("fdrPass", ">=", paste(from@fdrPass, collapse=" ")),
             sep="\n")
     }
 )
@@ -68,17 +68,17 @@ setMethod("show",
     signature(  object="CutoffManager"),
     function(object)
     {
-        cat(paste("", paste("Criteria", object@name), "",
+        cat("", paste("Criteria", object@name), "",
             paste("Pre-filter:", object@prefilter), "",
             paste("Function:", object@wfccmfunction), "",
             paste("Sign:", paste(object@sign, collapse=" ")), "",
             paste("Distance Permutations:", object@permutations), "",
             "Criteria:",
-            paste(as(object@criteria, "character"), collapse="\n"),
-            paste("numPass",">=", paste(object@numPass, collapse=", ")),
-            paste("fdrPass",">=", paste(object@fdrPass, collapse=", ")),
-            "", "",
-            sep="\n"))
+            as(object@criteria, "character"),
+            paste("numPass",">=", paste(object@numPass, collapse=" ")),
+            paste("fdrPass",">=", paste(object@fdrPass, collapse=" ")),
+            "",
+            sep="\n")
     }
 )
 

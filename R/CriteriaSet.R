@@ -26,7 +26,7 @@ is.CriteriaSet <- function(x)  is(x, "CriteriaSet")
 
 # Coersion
 setAs(from="CriteriaSet", to="character",
-    function(from)  paste(paste(from@criteria, collapse="\n"), from@pass, "", sep="\n")
+    function(from)  paste(paste(from@criteria, collapse="\n"), from@pass, sep="\n")
 )
 setMethod("as.character",
     signature(  x="CriteriaSet"),
@@ -36,7 +36,12 @@ setMethod("as.character",
 # Show
 setMethod("show",
     signature(  object="CriteriaSet"),
-    function(object)  cat(as(object, "character"))
+    function(object)
+    {
+        cat("", as(object@criteria, "character"), "",
+            paste("Pass:", object@pass), "",
+            sep="\n")
+    }
 )
 
 # Names

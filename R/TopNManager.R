@@ -29,7 +29,7 @@ write.TopNManager <- function(x, file)
         x@wfccmfunction, "",
         paste(x@sign, collapse=" "), "",
         x@permutations, "",
-        paste(x@criteria, collapse="\n"),
+        as(x@criteria, "character"),
         file=file, sep="\n")
 }
 
@@ -61,15 +61,15 @@ setMethod("show",
     signature(  object="TopNManager"),
     function(object)
     {
-        cat(paste("", paste("Criteria", paste("top", object@topN, sep="")), "",
+        cat("", paste("Criteria", paste("top", object@topN, sep="")), "",
             paste("Pre-filter:", object@prefilter), "",
             paste("Function:", object@wfccmfunction), "",
             paste("Sign:", paste(object@sign, collapse=" ")), "",
             paste("Distance Permutations:", object@permutations), "",
             "Criteria:",
-            paste(as(object@criteria, "character"), collapse="\n"),
-            "","",
-            sep="\n"))
+            as(object@criteria, "character"),
+            "",
+            sep="\n")
     }
 )
 
