@@ -100,25 +100,11 @@ setMethod("names",
     signature(  x="Criteria"),
     function(x)  x@name
 )
-setReplaceMethod("names",
-    signature(  x="Criteria",
-                value="character"),
-    function(x, value)
-    {
-        x@name <- rep(c(value, NA), length.out=length(x@name))
-        x
-    }
-)
 
 # Length
 setMethod("length",
     signature(  x="Criteria"),
     function(x)  length(x@name)
-)
-setReplaceMethod("length",
-    signature(  x="Criteria",
-                value="ANY"),
-    function(x, value)  stop("operation not supported.")
 )
 
 # Concatenate
@@ -141,31 +127,33 @@ setMethod("c",
     }
 )
 
-# Vector
+# [
 setMethod("[",
     signature(  x="Criteria",
-                i="character"),
-    function(x, i, j, drop)
-    {
-        idx <- which(x@name %in% i)
-        if (missing(j))
-            x[idx]
-        else
-            x[idx, j]
-    }
+                i="character",
+                j="missing"),
+    function(x, i, j, drop)  x[which(x@name %in% i)]
 )
 setMethod("[",
     signature(  x="Criteria",
-                i="missing"),
-    function(x, i, j, drop)
-    {
-        if (length(j) < length(x))
-            stop("not enough elements in j")
-        if (length(j) > length(x))
-            j <- j[1:length(x)]
-        Criteria(x@name, x@operator, mapply("[", x@values, j, SIMPLIFY=FALSE))
-    }
+                i="character",
+                j="numeric"),
+    function(x, i, j, drop)  x[which(x@name %in% i), j]
 )
+
+setMethod("[",
+    signature(  x="Criteria",
+                i="logical",
+                j="missing"),
+    function(x, i, j, drop)  x[which(i)]
+)
+setMethod("[",
+    signature(  x="Criteria",
+                i="logical",
+                j="numeric"),
+    function(x, i, j, drop)  x[which(i), j]
+)
+
 setMethod("[",
     signature(  x="Criteria",
                 i="numeric",
@@ -177,13 +165,8 @@ setMethod("[",
 )
 setMethod("[",
     signature(  x="Criteria",
-                i="missing",
-                j="missing"),
-    function(x, i, j, drop)  x
-)
-setMethod("[",
-    signature(  x="Criteria",
-                i="numeric"),
+                i="numeric",
+                j="numeric"),
     function(x, i, j, drop)
     {
         if (length((1:length(x))[i]) == 1 && !missing(j))
@@ -198,6 +181,28 @@ setMethod("[",
         }
     }
 )
+
+setMethod("[",
+    signature(  x="Criteria",
+                i="missing",
+                j="numeric"),
+    function(x, i, j, drop)
+    {
+        if (length(j) < length(x))
+            stop("not enough elements in j")
+        if (length(j) > length(x))
+            j <- j[1:length(x)]
+        Criteria(x@name, x@operator, mapply("[", x@values, j, SIMPLIFY=FALSE))
+    }
+)
+setMethod("[",
+    signature(  x="Criteria",
+                i="missing",
+                j="missing"),
+    function(x, i, j, drop)  x
+)
+
+# [<-
 setReplaceMethod("[",
     signature(  x="Criteria",
                 i="character",
@@ -269,7 +274,7 @@ setReplaceMethod("[",
     }
 )
 
-# Get combination X (1-based) of criteria
+# [[ -- Get combination n of criteria
 setMethod("[[",
     signature(  x="Criteria",
                 i="numeric",
@@ -277,9 +282,7 @@ setMethod("[[",
     function(x, i, j)
     {
         base <- cumprod(c(1, sapply(x@values, length)))
-        print(base)
         idx <- diff((i - 1) %% base) %/% base[-(length(x@values)+1)] + 1
-        print(idx)
         x[, idx]
     }
 )
