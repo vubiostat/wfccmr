@@ -158,65 +158,85 @@ setMethod("[",
     signature(  x="Criteria",
                 i="numeric",
                 j="missing"),
-    function(x, i, j, drop)
-    {
-        Criteria(x@name[i], x@operator[i], x@values[i])
-    }
+    function(x, i, j, drop)  Criteria(x@name[i], x@operator[i], x@values[i])
 )
 setMethod("[",
     signature(  x="Criteria",
                 i="numeric",
                 j="numeric"),
-    function(x, i, j, drop)
+    function(x, i, j, drop) #x[i][,j]
     {
-        if (length((1:length(x))[i]) == 1 && !missing(j))
-        {
-                Criteria(x@name[i], x@operator[i], x@values[[i]][j])
-        }
-        else
-        {
-            if (!missing(j))
-                warning("second argument to extractor function ignored")
-            x[i]
-        }
+        if (length(j) != length(i))
+            stop("incorrect number of elements in 'i' and 'j'")
+        Criteria(x@name[i], x@operator[i], mapply("[", x@values[i], j, SIMPLIFY=FALSE))
     }
 )
 
-setMethod("[",
-    signature(  x="Criteria",
-                i="missing",
-                j="numeric"),
-    function(x, i, j, drop)
-    {
-        if (length(j) < length(x))
-            stop("not enough elements in j")
-        if (length(j) > length(x))
-            j <- j[1:length(x)]
-        Criteria(x@name, x@operator, mapply("[", x@values, j, SIMPLIFY=FALSE))
-    }
-)
 setMethod("[",
     signature(  x="Criteria",
                 i="missing",
                 j="missing"),
     function(x, i, j, drop)  x
 )
+setMethod("[",
+    signature(  x="Criteria",
+                i="missing",
+                j="numeric"),
+    function(x, i, j, drop)
+    {
+        if (length(j) != length(x))
+            stop("incorrect number of elements in 'j'")
+        Criteria(x@name, x@operator, mapply("[", x@values, j, SIMPLIFY=FALSE))
+    }
+)
 
 # [<-
 setReplaceMethod("[",
     signature(  x="Criteria",
                 i="character",
+                j="missing",
                 value="Criteria"),
-    function(x, i, j, value)
+    function(x, i, j, value) 
     {
-        idx <- which(x@name %in% i)
-        if (missing(j))
-            x[idx] <- value
-        else
-            x[idx, j] <- value
+        x[which(x@name %in% i)] <- value
         x
     }
 )
+setReplaceMethod("[",
+    signature(  x="Criteria",
+                i="character",
+                j="numeric",
+                value="numeric"),
+    function(x, i, j, value) 
+    {
+        x[which(x@name %in% i), j] <- value
+        x
+    }
+)
+
+setReplaceMethod("[",
+    signature(  x="Criteria",
+                i="logical",
+                j="missing",
+                value="Criteria"),
+    function(x, i, j, value) 
+    {
+        x[which(i)] <- value
+        x
+    }
+)
+setReplaceMethod("[",
+    signature(  x="Criteria",
+                i="logical",
+                j="numeric",
+                value="numeric"),
+    function(x, i, j, value) 
+    {
+        x[which(i), j] <- value
+        x
+    }
+)
+
 setReplaceMethod("[",
     signature(  x="Criteria",
                 i="numeric",
@@ -232,6 +252,22 @@ setReplaceMethod("[",
 )
 setReplaceMethod("[",
     signature(  x="Criteria",
+                i="numeric",
+                j="numeric",
+                value="numeric"),
+    function(x, i, j, value)
+    {
+        if (length(j) != length(i))
+            stop("incorrect number of elements in 'i' and 'j'")
+        value <- rep(value, length.out=length(i))
+        for (k in 1:length(i))
+            x@values[[i[k]]][k[j]] <- value[k]
+        x
+    }
+)
+
+setReplaceMethod("[",
+    signature(  x="Criteria",
                 i="missing",
                 j="missing",
                 value="Criteria"),
@@ -245,31 +281,16 @@ setReplaceMethod("[",
 )
 setReplaceMethod("[",
     signature(  x="Criteria",
-                i="numeric",
-                value="Criteria"),
+                i="missing",
+                j="numeric",
+                value="numeric"),
     function(x, i, j, value)
     {
-        if (length((1:length(x))[i]) == 1 && !missing(j))
-                x@values[[i]][j] <- value@values
-        else
-        {
-            if (!missing(j))
-                warning("second argument to replacement function ignored")
-            x[i] <- value
-        }
-        x
-    }
-)
-setReplaceMethod("[",
-    signature(  x="Criteria"),
-    function(x, i, j, value)
-    {
-        if (missing(i) && missing(j))
-            x[] <- as.Criteria(value)
-        else if (missing(j))
-            x[i] <- as.Criteria(value)
-        else
-            x[i,j] <- as.Criteria(value)
+        if (length(j) != length(x))
+            stop("incorrect number of elements in 'j'")
+        value <- rep(value, length.out=length(x))
+        for (k in 1:length(x))
+            x@values[[k]][k[j]] <- value[k]
         x
     }
 )

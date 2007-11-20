@@ -49,12 +49,3 @@ setMethod("names",
     signature(  x="CriteriaSet"),
     function(x)  x@criteria@name
 )
-setReplaceMethod("names",
-    signature(  x="CriteriaSet",
-                value="character"),
-    function(x, value)
-    {
-        x@criteria@name <- value
-        x
-    }
-)

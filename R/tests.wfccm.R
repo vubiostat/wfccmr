@@ -1,12 +1,12 @@
 tests.wfccm <- function(x, grp, tests = c("t", "ks", "wilcox", "sam", "wga", "huwright", "info"), ...)
 {
-    if (length(levels(factor(grp))) != 2)
+    if (nlevels(factor(grp)) != 2)
         stop("There must be 2 groups for statistical tests.")
     namemap <- c(t="t", ks="d", wilcox="c", fisher="f")
     tests <- match.arg(tests, several.ok=TRUE)
     n <- dim(x)[1]
     v <- dim(x)[2]
-    d <- split(x,grp)
+    d <- split(x, grp)
     result <- data.frame(matrix(0, v, 0))
     for (test in tests)
     {
