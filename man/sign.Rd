@@ -12,10 +12,4 @@
   \item{lead}{numeric or character of the index or name of the variable to get the sign to apply to the \code{rest} variables.}
   \item{rest}{numeric or character of the indices or names of the variables to apply the \code{lead} sign to.}
 }
-\author{
-  Will Gray\cr
-  Department of Biostatistics\cr
-  Vanderbilt University\cr
-  \email{w.gray@vanderbilt.edu}
-}
 \keyword{utilities}

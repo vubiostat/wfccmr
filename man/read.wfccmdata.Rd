@@ -19,11 +19,5 @@ read.wfccminfo(file, sep = "\t", \dots)
 
   In the case of \code{read.wfccmdata}, it also removes the id field and transposes the data so fields (variables) are columns and records (samples) are rows.
 }
-\author{
-  Will Gray\cr
-  Department of Biostatistics\cr
-  Vanderbilt University\cr
-  \email{w.gray@vanderbilt.edu}
-}
 \keyword{file}
 \keyword{connection}

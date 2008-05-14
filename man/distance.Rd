@@ -32,12 +32,6 @@ distance(scores, group.1, group.2, \dots)
   \item{prediction}{A factor of class predictions for each sample in the list of scores.  If verbose, a data.frame of scores, predicted class, group means, distances from group means, and possibly a flag for correct classification.}
   \item{accuracy}{An array with overall, group 1, and group 2 accuracy.}
 }
-\author{
-  Will Gray\cr
-  Department of Biostatistics\cr
-  Vanderbilt University\cr
-  \email{w.gray@vanderbilt.edu}
-}
 \examples{
   \dontshow{
     x <- rnorm(10)
