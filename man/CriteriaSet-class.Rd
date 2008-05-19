@@ -2,7 +2,7 @@
 \docType{class}
 \alias{CriteriaSet-class}
 \title{Class "CriteriaSet" for Winner Selection}
-\description{}
+\description{This class represents a single filtering criteria for WFCCM distance.}
 \section{Objects from the Class}{
 Objects can be created by calls of the form \code{new("CriteriaSet", ...)}, but most often as the result of a call to \code{\link{CriteriaSet}}.
 }
