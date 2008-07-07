@@ -7,7 +7,7 @@
 Objects can be created by calls of the form \code{new("TopNManager", ...)}, but most often as the result of a call to \code{\link{TopNManager}}.
 }
 \section{Slots}{
-	 \describe{
+  \describe{
     \item{\code{topN}:}{Object of class \code{"numeric"}. The levels of overall rank to use, 1-N.}
     \item{\code{criteria}:}{Object of class \code{"Criteria"}. The filtering criteria.}
     \item{\code{name}:}{Object of class \code{"character"}. The set name.}
@@ -28,7 +28,7 @@ Class \code{"\linkS4class{CriteriaManager}"}, directly.
     \item{length}{\code{signature(x = "TopNManager")}: The value for topN.}
     \item{length<-}{\code{signature(x = "TopNManager", value = "numeric")}: Replace the value for topN.}
     \item{show}{\code{signature(object = "TopNManager")}: Display the object briefly.}
-	 }
+  }
 }
 \examples{
 showClass("TopNManager")

@@ -5,7 +5,8 @@
   Runs all steps for WFCCM.
 }
 \usage{
-wfccmr(data, group, tests = tests.wfccm(data, group), model, testdata = NULL, testgroup = NULL, ...)
+wfccmr(data, group, tests = tests.wfccm(data, group), model,
+  testdata = NULL, testgroup = NULL, ...)
 }
 \arguments{
   \item{data}{numeric matrix or data.frame.}

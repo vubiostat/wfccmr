@@ -5,7 +5,7 @@
 \description{This class represents a set of filtering criteria for WFCCM distance.}
 \section{Objects from the Class}{A virtual Class: No objects may be created from it.}
 \section{Slots}{
-	 \describe{
+  \describe{
     \item{\code{criteria}:}{Object of class \code{"Criteria"}. The filtering criteria.}
     \item{\code{name}:}{Object of class \code{"character"}. The set name.}
     \item{\code{sign}:}{Object of class \code{"character"}. The sign order.}
@@ -24,7 +24,7 @@
     \item{names}{\code{signature(x = "CriteriaManager")}: Get set name.}
     \item{names<-}{\code{signature(x = "CriteriaManager", value = "character")}: Replace the set name.}
     \item{show}{\code{signature(object = "CriteriaManager")}: Display object briefly.}
-	 }
+  }
 }
 \examples{
 showClass("CriteriaManager")

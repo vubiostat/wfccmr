@@ -7,7 +7,7 @@
 Objects can be created by calls of the form \code{new("CriteriaSet", ...)}, but most often as the result of a call to \code{\link{CriteriaSet}}.
 }
 \section{Slots}{
-	 \describe{
+  \describe{
     \item{\code{criteria}:}{Object of class \code{"Criteria"}. The criteria.}
     \item{\code{pass}:}{Object of class \code{"character"}. The pass function.}
   }
@@ -18,7 +18,7 @@ Objects can be created by calls of the form \code{new("CriteriaSet", ...)}, but 
     \item{coerce}{\code{signature(from = "CriteriaSet", to = "character")}: Class coersion.}
     \item{names}{\code{signature(x = "CriteriaSet")}: Column names.}
     \item{show}{\code{signature(object = "CriteriaSet")}: Display object briefly.}
-	 }
+  }
 }
 \examples{
 showClass("CriteriaSet")

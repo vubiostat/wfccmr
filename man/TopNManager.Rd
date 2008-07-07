@@ -6,7 +6,8 @@
   Create or test of objects of type \code{"TopNManager"}.
 }
 \usage{
-TopNManager(criteria = Criteria(), name = paste("top", topN, sep = ""), sign = "", wfccmfunction = "", prefilter = "", permutations = 0, topN = 100)
+TopNManager(criteria = Criteria(), name = paste("top", topN, sep = ""),
+  sign = "", wfccmfunction = "", prefilter = "", permutations = 0, topN = 100)
 is.TopNManager(x)
 }
 \arguments{

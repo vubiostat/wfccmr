@@ -6,7 +6,9 @@
   Create or test for objects of type \code{"CutoffManager"}.
 }
 \usage{
-CutoffManager(criteria = Criteria(), name = "cutoff", sign = "", wfccmfunction = "", prefilter = "", permutations = 10000, numPass = 1, fdrPass = 1)
+CutoffManager(criteria = Criteria(), name = "cutoff", sign = "",
+  wfccmfunction = "", prefilter = "", permutations = 10000,
+  numPass = 1, fdrPass = 1)
 is.CutoffManager(x)
 }
 \arguments{

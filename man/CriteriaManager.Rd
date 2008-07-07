@@ -6,7 +6,8 @@
   Create or test for objects of type \code{"CriteriaManager"}.
 }
 \usage{
-CriteriaManager(criteria = Criteria(), name = "criteria", sign = "", wfccmfunction = "", prefilter = "", permutations = 0)
+CriteriaManager(criteria = Criteria(), name = "criteria", sign = "",
+  wfccmfunction = "", prefilter = "", permutations = 0)
 is.CriteriaManager(x)
 }
 \arguments{
@@ -19,9 +20,10 @@ is.CriteriaManager(x)
   \item{x}{object to be coerced or tested.}
 }
 \value{
-\code{CriteriaManager} creates an object of type CriteriaManager.
+  \code{CriteriaManager} creates an object of type CriteriaManager.
 
-\code{is.CriteriaManager} returns \code{TRUE} or \code{FALSE} depending on whether its argument is of CriteriaManager type or not.
+  \code{is.CriteriaManager} returns \code{TRUE} or \code{FALSE} depending on whether
+  its argument is of CriteriaManager type or not.
 }
 \seealso{
   \code{\link{CriteriaManager-class}}

@@ -7,7 +7,7 @@
 Objects can be created by calls of the form \code{new("CutoffManager", ...)}, but most often as the result of a call to \code{\link{CutoffManager}}.
 }
 \section{Slots}{
-	 \describe{
+  \describe{
     \item{\code{numPass}:}{Object of class \code{"numeric"}. The cutoff levels for numPass.}
     \item{\code{fdrPass}:}{Object of class \code{"numeric"}. The cutoff levels for fdrPass.}
     \item{\code{criteria}:}{Object of class \code{"Criteria"}. The filtering criteria.}
@@ -28,7 +28,7 @@ Class \code{"\linkS4class{CriteriaManager}"}, directly.
     \item{coerce}{\code{signature(from = "CutoffManager", to = "character")}: Class coersion.}
     \item{length}{\code{signature(x = "CutoffManager")}: The number of criteria combinations.}
     \item{show}{\code{signature(object = "CutoffManager")}: Display object briefly.}
-	 }
+  }
 }
 \examples{
 showClass("CutoffManager")

@@ -7,7 +7,7 @@
 Objects can be created by calls of the form \code{new("Criteria", ...)}, but most often as the result of a call to \code{\link{Criteria}}.
 }
 \section{Slots}{
-	 \describe{
+  \describe{
     \item{\code{name}:}{Object of class \code{"character"}. The test names.}
     \item{\code{operator}:}{Object of class \code{"character"}. The comparison operators.}
     \item{\code{values}:}{Object of class \code{"list"}. List of objects of class \code{"numeric"}. The cutoff values.}
@@ -39,6 +39,6 @@ Objects can be created by calls of the form \code{new("Criteria", ...)}, but mos
     \item{length}{\code{signature(x = "Criteria")}: Number of criteria.}
     \item{names}{\code{signature(x = "Criteria")}: Column names.}
     \item{show}{\code{signature(object = "Criteria")}: Display object briefly.}
-	 }
+  }
 }
 \keyword{classes}

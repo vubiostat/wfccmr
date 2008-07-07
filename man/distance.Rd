@@ -6,7 +6,6 @@
 }
 \usage{
   distance(scores, group = NULL, group.1 = NA, group.2 = NA, verbose = FALSE)
-
 }
 \arguments{
   \item{scores}{numeric vector of scores for a set of samples.}
