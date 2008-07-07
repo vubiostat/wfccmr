@@ -1,4 +1,4 @@
-useDynLib("Wfccm", fdrAdjust)
+useDynLib("Wfccm", "_fdrAdjustment")
 
 import(methods)
 
