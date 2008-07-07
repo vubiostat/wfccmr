@@ -21,13 +21,9 @@ wfccmr <- function(data, group, tests=tests.wfccm(data,group), model, testdata=N
         result <- list()
         result$winners <- winners
         result$training <- prediction.train
-        # ROC curve
-        if (require(ROC))
-        {
-            levels(group) <- c(1,2)
-            result$roc.training <- rocdemo.sca(scores$samples, group)
-            result$roc.auc.training <- AUC(result$training.roc)
-        }
+        # ROC
+        result$roc.training <- roc(scores$samples, group=group)
+        # testing
         if (!missing(testdata))
         {
             # filter testing data
@@ -37,13 +33,8 @@ wfccmr <- function(data, group, tests=tests.wfccm(data,group), model, testdata=N
             # run testing distance
             prediction.test <- distance(scores.test$samples, testgroup, group.1=prediction.train$group.1, group.2=prediction.train$group.2, ...)
             result$testing <- prediction.test
-            # testing ROC curve
-            if (require(ROC))
-            {
-                levels(testgroup) <- c(1,2)
-                result$roc.testing <- rocdemo.sca(scores.test$samples, testgroup)
-                result$roc.auc.testing <- AUC(result$testing.roc)
-            }
+            # testing ROC
+            result$roc.testing <- roc(scores.test$samples, group=testgroup)
         }
         results[[i]] <- result
     }
