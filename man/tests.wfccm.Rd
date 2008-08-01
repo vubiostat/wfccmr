@@ -5,7 +5,7 @@
   Runs and collates statistical tests for use in WFCCM.
 }
 \usage{
-tests.wfccm(x, grp, tests = c("t", "ks", "wilcox", "sam", "wga", "huwright", "info"), ...)
+tests.wfccm(x, grp, tests = c("t", "ks", "wilcoxon", "sam", "wga", "huwright", "info"), ...)
 }
 \arguments{
   \item{x}{numeric matrix with rows as samples and columns as variables.}

@@ -1,8 +1,8 @@
-tests.wfccm <- function(x, grp, tests = c("t", "ks", "wilcox", "sam", "wga", "huwright", "info"), ...)
+tests.wfccm <- function(x, grp, tests = c("t", "ks", "wilcoxon", "sam", "wga", "huwright", "info"), ...)
 {
     if (nlevels(factor(grp)) != 2)
         stop("There must be 2 groups for statistical tests.")
-    namemap <- c(t="t", ks="d", wilcox="c", fisher="f")
+    namemap <- c(t="t", ks="d", wilcoxon="c", fisher="f")
     tests <- match.arg(tests, several.ok=TRUE)
     n <- dim(x)[1]
     v <- dim(x)[2]
@@ -11,18 +11,24 @@ tests.wfccm <- function(x, grp, tests = c("t", "ks", "wilcox", "sam", "wga", "hu
     for (test in tests)
     {
         dat <- list()
-        if (test %in% c("t", "ks", "wilcox"))
+        if (test %in% c("t", "ks", "wilcoxon"))
         {
             dat <- list(c(), c())
+            if (test == "wilcoxon")
+                dat <- list(c(), c(), c())
             funcname <- paste(test, "test", sep=".")
             for (i in 1:v)
             {
                 tmp <- do.call(funcname, list(d[[1]][,i], d[[2]][,i], ...))
                 dat[[1]][i] <- tmp$statistic
                 dat[[2]][i] <- tmp$p.value
+                if (test == "wilcoxon")
+                    dat[[3]][i] <- tmp$z
             }
             name <- namemap[test]
             names(dat) <- c(paste(name, "value", sep="."), paste("prob", name, sep="."))
+            if (test == "wilcoxon")
+                names(dat)[3] <- "cz.value"
             fdr <- fdrAdjustment(dat[[2]])
             names(fdr) <- paste(names(dat)[2], c("rank", "fdr"), sep=".")
             dat <- cbind(dat, fdr)
@@ -74,7 +80,7 @@ tests.wfccm <- function(x, grp, tests = c("t", "ks", "wilcox", "sam", "wga", "hu
         }
         result <- cbind(result, dat)
     }
-    result <- cbind(result, rank.wfccm(result[,colnames(result)[grep(".rank$", colnames(result))]], ties.break=1))
+    result <- cbind(result, rank.wfccm(result[,colnames(result)[grep(".rank$", colnames(result))]], ties.break=1)[c("ranksum","rank")])
     class(result) <- c("tests.wfccm", "data.frame")
     result
 }
