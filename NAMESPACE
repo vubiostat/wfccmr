@@ -1,12 +1,10 @@
-useDynLib("Wfccm", "_fdrAdjustment")
-
 import(methods)
 
 export(Criteria, CriteriaSet, CriteriaManager, CutoffManager, TopNManager)
 export(is.Criteria, is.CriteriaSet, is.CriteriaManager, is.CutoffManager, is.TopNManager)
 export(write.CriteriaManager, write.CutoffManager, write.TopNManager)
 export(read.CriteriaManager)
-export(distance, fdrAdjustment, filter.wfccm, rank.wfccm, scores.wfccm, sign.wfccm, tests.wfccm, winners.wfccm, wfccmr, read.wfccmdata, read.wfccminfo)
+export(distance, filter.wfccm, rank.wfccm, scores.wfccm, sign.wfccm, tests.wfccm, winners.wfccm, wfccmr, read.wfccmdata, read.wfccminfo)
 
 exportClasses(Criteria, CriteriaSet, CriteriaManager, CutoffManager, TopNManager)
 
