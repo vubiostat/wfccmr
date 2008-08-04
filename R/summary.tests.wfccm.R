@@ -1,4 +1,4 @@
-summary.tests.wfccm <- function(..., file="", sep="\t")
+summary.tests.wfccm <- function(..., file="", sep=",")
 {
     cutoff <- function(x)
     {
@@ -21,7 +21,7 @@ summary.tests.wfccm <- function(..., file="", sep="\t")
     cols <- unique(unlist(lapply(scores, colnames)))
     grpnames <- names(scores)
     if (is.null(grpnames)) grpnames <- paste("Group", 1:l)
-    cat("", grpnames, file=file, sep="\t", append=FALSE)
+    cat("", grpnames, file=file, sep=sep, append=FALSE)
     if ("info" %in% cols)
     {
         table <- matrix(NA,1,l)
@@ -60,7 +60,6 @@ summary.tests.wfccm <- function(..., file="", sep="\t")
         }
         for (i in 1:l)
         {
-            if (!col %in% colnames(scores[[i]])) next
             cold <- scores[[i]][,col]
             s <- sort(cold, decreasing=dec)
             table[1,i] <- s[1]
