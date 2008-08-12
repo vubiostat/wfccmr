@@ -3,8 +3,7 @@ setClass("TopNManager",
     prototype(  name="top200",
                 topN=200),
     contains="CriteriaManager",
-    validity=function(object)
-    {
+    validity=function(object) {
         if (length(object@name) != 1)
             return("there can only be one name")
         if (length(object@wfccmfunction) != 1)
@@ -22,8 +21,7 @@ TopNManager <- function(criteria=Criteria(), name=paste("top",topN,sep=""), sign
 new("TopNManager", criteria=criteria, name=name, sign=sign, wfccmfunction=wfccmfunction, prefilter=prefilter, permutations=permutations, topN=topN)
 
 # Write
-write.TopNManager <- function(x, file)
-{
+write.TopNManager <- function(x, file) {
     cat(paste("top", x@topN, sep=""), "",
         x@prefilter, "",
         x@wfccmfunction, "",
@@ -38,8 +36,7 @@ is.TopNManager <- function(x)  is(x, "TopNManager")
 
 # Coersion
 setAs(from="TopNManager", to="character",
-    function(from)
-    {
+    function(from) {
         paste(paste("top", from@topN, sep=""),
             from@prefilter,
             from@wfccmfunction,
@@ -59,8 +56,7 @@ setMethod("as.character",
 # Show
 setMethod("show",
     signature(  object="TopNManager"),
-    function(object)
-    {
+    function(object) {
         cat("", paste("Criteria", paste("top", object@topN, sep="")), "",
             paste("Pre-filter:", object@prefilter), "",
             paste("Function:", object@wfccmfunction), "",
@@ -81,8 +77,7 @@ setMethod("length",
 setReplaceMethod("length",
     signature(  x="TopNManager",
                 value="numeric"),
-    function(x, value)
-    {
+    function(x, value) {
         x@topN <- value
         x
     }
@@ -93,8 +88,7 @@ setMethod("[[",
     signature(  x="TopNManager",
                 i="numeric",
                 j="missing"),
-    function(x, i, j)
-    {
+    function(x, i, j) {
         n <- (i - 1) %% x@topN
         CriteriaSet(x@criteria[[i]], paste("(rank <=", n, ") & (numPass >= 1)"))
     }

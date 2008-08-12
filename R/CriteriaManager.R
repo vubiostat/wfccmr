@@ -12,8 +12,7 @@ setClass("CriteriaManager",
                 wfccmfunction="",
                 prefilter="",
                 permutations=0),
-    validity=function(object)
-    {
+    validity=function(object) {
         if (length(object@name) != 1)
             return("there can only be one name")
         if (length(object@wfccmfunction) != 1)
@@ -31,8 +30,7 @@ CriteriaManager <- function(criteria=Criteria(), name="criteria", sign="", wfccm
 new("CriteriaManager", criteria=criteria, name=name, sign=sign, wfccmfunction=wfccmfunction, prefilter=prefilter, permutations=permutations)
 
 # Write
-write.CriteriaManager <- function(x, file)
-{
+write.CriteriaManager <- function(x, file) {
     cat(x@name, "",
         x@prefilter, "",
         x@wfccmfunction, "",
@@ -58,14 +56,12 @@ read.CriteriaManager <- function(file)
     on.exit(options(old.option))
     permutations <- as.numeric(data[9])
     next.line <- 11
-    if (is.na(permutations))
-    {
+    if (is.na(permutations)) {
         permutations <- 0
         next.line <- 9
     }
     criteria <- Criteria()
-    for (line in next.line:length(data))
-    {
+    for (line in next.line:length(data)) {
         if (nchar(data[line]) == 0) break
         criteria[line - next.line + 1] <- as.Criteria(data[line])
     }
@@ -77,8 +73,7 @@ is.CriteriaManager <- function(x)  is(x, "CriteriaManager")
 
 # Coersion
 setAs(from="CriteriaManager", to="character",
-    function(from)
-    {
+    function(from) {
         paste(x@name,
             x@prefilter,
             x@wfccmfunction,
@@ -96,8 +91,7 @@ setMethod("as.character",
 # Show
 setMethod("show",
     signature(  object="CriteriaManager"),
-    function(object)
-    {
+    function(object) {
         cat(paste("", paste("Criteria", from@name), "",
             paste("Pre-filter:", from@prefilter), "",
             paste("Function:", from@wfccmfunction), "",
@@ -118,8 +112,7 @@ setMethod("names",
 setReplaceMethod("names",
     signature(  x="CriteriaManager",
                 value="character"),
-    function(x, value)
-    {
+    function(x, value) {
         x@name <- value
         x
     }

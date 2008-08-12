@@ -5,8 +5,7 @@ setClass("CutoffManager",
                 numPass=1,
                 fdrPass=1),
     contains="CriteriaManager",
-    validity=function(object)
-    {
+    validity=function(object) {
         if (length(object@name) != 1)
             return("there can only be one name")
         if (length(object@wfccmfunction) != 1)
@@ -25,8 +24,7 @@ CutoffManager <- function(criteria=Criteria(), name="cutoff", sign="", wfccmfunc
 new("CutoffManager", criteria=criteria, name=name, sign=sign, wfccmfunction=wfccmfunction, prefilter=prefilter, permutations=permutations, numPass=numPass, fdrPass=fdrPass)
 
 # Write
-write.CutoffManager <- function(x, file)
-{
+write.CutoffManager <- function(x, file) {
     cat(x@name, "",
         x@prefilter, "",
         x@wfccmfunction, "",
@@ -43,8 +41,7 @@ is.CutoffManager <- function(x)  is(x, "CutoffManager")
 
 # Coersion
 setAs(from="CutoffManager", to="character",
-    function(from)
-    {
+    function(from) {
         paste(from@name,
             from@prefilter,
             from@wfccmfunction,
@@ -66,8 +63,7 @@ setMethod("as.character",
 # Show
 setMethod("show",
     signature(  object="CutoffManager"),
-    function(object)
-    {
+    function(object) {
         cat("", paste("Criteria", object@name), "",
             paste("Pre-filter:", object@prefilter), "",
             paste("Function:", object@wfccmfunction), "",
@@ -85,8 +81,7 @@ setMethod("show",
 # Get combinations
 setMethod("length",
     signature(  x="CutoffManager"),
-    function(x)
-    {
+    function(x) {
         if (length(x@criteria@values) == 0)
             0
         else
@@ -99,8 +94,7 @@ setMethod("[[",
     signature(  x="CutoffManager",
                 i="numeric",
                 j="missing"),
-    function(x, i, j)
-    {
+    function(x, i, j) {
         n <- (i - 1) %/% prod(sapply(x@criteria@values, length))
         pass <-
             if (length(x@numPass) > 0)

@@ -5,8 +5,7 @@ setClass("Criteria",
     prototype(  name=character(),
                 operator=character(),
                 values=list()),
-    validity=function(object)
-    {
+    validity=function(object) {
         rankcols <- object@operator %in% c("ASC", "DESC")
         cutcols <- which(!rankcols)
         rankcols <- which(rankcols)
@@ -33,10 +32,8 @@ setClass("Criteria",
 )
 
 # Constructor
-Criteria <- function(name=character(), operator=character(), values=list())
-{
-    if (!is.list(values))
-    {
+Criteria <- function(name=character(), operator=character(), values=list()) {
+    if (!is.list(values)) {
         if (length(name) == 1)
             values <- list(values)
         else
@@ -54,8 +51,7 @@ is.Criteria <- function(x)  is(x, "Criteria")
 # Coersion
 # Criteria as.character
 setAs(from="Criteria", to="character",
-    function(from)
-    {
+    function(from) {
         result <- paste(from@name, from@operator, sapply(from@values, paste, collapse=" "))
         names(result) <- from@name
         result
@@ -70,8 +66,7 @@ setGeneric("as.Criteria",
     function(x)  standardGeneric("as.Criteria")
 )
 setAs(from="character", to="Criteria",
-    function(from)
-    {
+    function(from) {
         # get a single space around the operator
         from <- sub("([[:space:]]*(>=?|<=?|!=|==)[[:space:]]*)", " \\1 ", from)
         # make multiple spaces a single
@@ -111,18 +106,15 @@ setMethod("length",
 setMethod("c",
     signature(  x="Criteria",
                 recursive="missing"),
-    function(x, ..., recursive)
-    {
+    function(x, ..., recursive) {
         l <- list(...)
-        if (length(l) > 0)
-        {
+        if (length(l) > 0) {
             l <- sapply(l[sapply(l, canCoerce, "Criteria")], as.Criteria)
             name <- sapply(l, function(x) x@name)
             oper <- sapply(l, function(x) x@operator)
             valus <- sapply(l, function(x) x@values)
             Criteria(c(x@name, name), c(x@operator, oper), c(x@values, valus))
-        }
-        else
+        } else
             x
     }
 )
@@ -164,8 +156,7 @@ setMethod("[",
     signature(  x="Criteria",
                 i="numeric",
                 j="numeric"),
-    function(x, i, j, drop) #x[i][,j]
-    {
+    function(x, i, j, drop) { #x[i][,j]
         if (length(j) != length(i))
             stop("incorrect number of elements in 'i' and 'j'")
         Criteria(x@name[i], x@operator[i], mapply("[", x@values[i], j, SIMPLIFY=FALSE))
@@ -182,8 +173,7 @@ setMethod("[",
     signature(  x="Criteria",
                 i="missing",
                 j="numeric"),
-    function(x, i, j, drop)
-    {
+    function(x, i, j, drop) {
         if (length(j) != length(x))
             stop("incorrect number of elements in 'j'")
         Criteria(x@name, x@operator, mapply("[", x@values, j, SIMPLIFY=FALSE))
@@ -196,8 +186,7 @@ setReplaceMethod("[",
                 i="character",
                 j="missing",
                 value="Criteria"),
-    function(x, i, j, value) 
-    {
+    function(x, i, j, value) {
         x[which(x@name %in% i)] <- value
         x
     }
@@ -207,8 +196,7 @@ setReplaceMethod("[",
                 i="character",
                 j="numeric",
                 value="numeric"),
-    function(x, i, j, value) 
-    {
+    function(x, i, j, value) {
         x[which(x@name %in% i), j] <- value
         x
     }
@@ -219,8 +207,7 @@ setReplaceMethod("[",
                 i="logical",
                 j="missing",
                 value="Criteria"),
-    function(x, i, j, value) 
-    {
+    function(x, i, j, value) {
         x[which(i)] <- value
         x
     }
@@ -230,8 +217,7 @@ setReplaceMethod("[",
                 i="logical",
                 j="numeric",
                 value="numeric"),
-    function(x, i, j, value) 
-    {
+    function(x, i, j, value) {
         x[which(i), j] <- value
         x
     }
@@ -242,8 +228,7 @@ setReplaceMethod("[",
                 i="numeric",
                 j="missing",
                 value="Criteria"),
-    function(x, i, j, value)
-    {
+    function(x, i, j, value) {
         x@name[i] <- value@name
         x@operator[i] <- value@operator
         x@values[i] <- value@values
@@ -255,8 +240,7 @@ setReplaceMethod("[",
                 i="numeric",
                 j="numeric",
                 value="numeric"),
-    function(x, i, j, value)
-    {
+    function(x, i, j, value) {
         if (length(j) != length(i))
             stop("incorrect number of elements in 'i' and 'j'")
         value <- rep(value, length.out=length(i))
@@ -271,8 +255,7 @@ setReplaceMethod("[",
                 i="missing",
                 j="missing",
                 value="Criteria"),
-    function(x, i, j, value)
-    {
+    function(x, i, j, value) {
         x@name[] <- value@name
         x@operator[] <- value@operator
         x@values[] <- value@values
@@ -284,8 +267,7 @@ setReplaceMethod("[",
                 i="missing",
                 j="numeric",
                 value="numeric"),
-    function(x, i, j, value)
-    {
+    function(x, i, j, value) {
         if (length(j) != length(x))
             stop("incorrect number of elements in 'j'")
         value <- rep(value, length.out=length(x))
@@ -300,8 +282,7 @@ setMethod("[[",
     signature(  x="Criteria",
                 i="numeric",
                 j="missing"),
-    function(x, i, j)
-    {
+    function(x, i, j) {
         base <- cumprod(c(1, sapply(x@values, length)))
         idx <- diff((i - 1) %% base) %/% base[-(length(x@values)+1)] + 1
         x[, idx]

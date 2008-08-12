@@ -5,8 +5,7 @@ wfccmr <- function(data, group, tests=tests.wfccm(data,group), model, testdata=N
     if (length(lvls) != 2)
         stop("group information should have 2 levels")
     results <- list()
-    for (i in 1:length(model))
-    {
+    for (i in 1:length(model)) {
         # get winners for model
         winners <- winners.wfccm(tests, model[[i]])
         # filter data
@@ -24,8 +23,7 @@ wfccmr <- function(data, group, tests=tests.wfccm(data,group), model, testdata=N
         # ROC
         result$roc.training <- roc(scores$samples, group=group)
         # testing
-        if (!missing(testdata))
-        {
+        if (!missing(testdata)) {
             # filter testing data
             testdata.filt <- testdata[, winners$pass, drop=FALSE]
             # calculate testing patient scores

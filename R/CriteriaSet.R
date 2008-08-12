@@ -3,8 +3,7 @@ setClass("CriteriaSet",
                     pass="character"),
     prototype(  criteria=Criteria(),
                 pass=""),
-    validity=function(object)
-    {
+    validity=function(object) {
         if (any(sapply(object@criteria@values, length) != 1))
             return("there can only be one cutoff value per criteria")
         if (length(object@pass) != 1)
@@ -14,8 +13,7 @@ setClass("CriteriaSet",
 )
 
 # Constructor
-CriteriaSet <- function(criteria=Criteria(), pass="")
-{
+CriteriaSet <- function(criteria=Criteria(), pass="") {
     if (length(pass) > 1)
         warning("only the first element of pass is used, all others are ignored")
     new("CriteriaSet", criteria=as.Criteria(criteria), pass=as.character(pass)[1])
@@ -36,8 +34,7 @@ setMethod("as.character",
 # Show
 setMethod("show",
     signature(  object="CriteriaSet"),
-    function(object)
-    {
+    function(object) {
         cat("", as(object@criteria, "character"), "",
             paste("Pass:", object@pass), "",
             sep="\n")
