@@ -41,12 +41,10 @@ write.CriteriaManager <- function(x, file) {
 }
 
 # Read from file
-read.CriteriaManager <- function(file)
-{
+read.CriteriaManager <- function(file) {
     data <- scan(file, what=character(0), sep="\n", blank.lines.skip=FALSE, quiet=TRUE)
-    fix <- function(x)
-    {
-        gsub("value", ".value", gsub("_", ".", x))
+    fix <- function(x) {
+        gsub("([^.])value", "\\1.value", gsub("_", ".", x))
     }
     name <- data[1]
     prefilter <- fix(data[3])
