@@ -8,7 +8,7 @@
 \usage{
 CutoffManager(criteria = Criteria(), name = "cutoff", sign = "",
   wfccmfunction = "", prefilter = "", permutations = 10000,
-  numPass = 1, fdrPass = 1)
+  numPass = Criteria("numPass", ">=", 1), fdrPass = Criteria("fdrPass", ">=", 1))
 is.CutoffManager(x)
 }
 \arguments{
@@ -18,8 +18,8 @@ is.CutoffManager(x)
   \item{wfccmfunction}{character string.  The function to create the score.}
   \item{prefilter}{character string.  The function to filter the data.}
   \item{permutations}{numeric value.  Number of distance permutations to run.}
-  \item{numPass}{numeric vector.  Set of cutoffs for the number of criteria to pass.}
-  \item{fdrPass}{numeric vector.  Set of cutoffs for the number of FDR-adjusted p-value criteria to pass.}
+  \item{numPass}{object of type \code{"Criteria"}.  Set of cutoffs for the number of criteria to pass.}
+  \item{fdrPass}{object of type \code{"Criteria"}.  Set of cutoffs for the number of FDR-adjusted p-value criteria to pass.}
   \item{x}{object to be coerced or tested.}
 }
 \value{

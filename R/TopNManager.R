@@ -31,6 +31,13 @@ write.TopNManager <- function(x, file) {
         file=file, sep="\n")
 }
 
+# Read
+read.TopNManager <- function(file) {
+    args <- read.CriteriaManager(file)
+    args$topN <- as.numeric(gsub("[^0-9]", "", args$name))
+    do.call(TopNManager, args)
+}
+
 # Tests
 is.TopNManager <- function(x)  is(x, "TopNManager")
 

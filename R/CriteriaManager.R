@@ -63,7 +63,7 @@ read.CriteriaManager <- function(file) {
         if (nchar(data[line]) == 0) break
         criteria[line - next.line + 1] <- as.Criteria(data[line])
     }
-    CriteriaManager(criteria=criteria, name=name, prefilter=prefilter, wfccmfunction=wfccmfunction, sign=sign, permutations=permutations)
+    list(criteria=criteria, name=name, prefilter=prefilter, wfccmfunction=wfccmfunction, sign=sign, permutations=permutations)
 }
 
 # Tests
