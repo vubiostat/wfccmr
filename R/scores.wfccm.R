@@ -14,7 +14,7 @@ scores.wfccm <- function(data, stats=NULL, model=NULL, features=NULL)
             stop("Model must be a CriteriaManager")
         names <- colnames(stats)
         std <- names[!is.na(sapply(paste("\\W", names, ".std\\W", sep=""), grep, model@wfccmfunction) == 1)]
-        tmp <- cbind(stats, normalize(stats[,std], 2))
+        tmp <- cbind(stats, scale(stats[,std], 2))
         tmp <- sign.wfccm(tmp, model@sign[1], model@sign[2:length(model@sign)])
         features <- with(tmp, eval(parse(text=model@wfccmfunction)))
     }

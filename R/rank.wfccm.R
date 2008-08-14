@@ -4,7 +4,7 @@ rank.wfccm <- function(data, rev=FALSE, ties.break=NULL)
         stop("Parameter rev must be of mode logical.")
 
     data <- as.data.frame(data)
-    ranks <- data.frame(matrix(0, dim(data)[1], 0))
+    ranks <- as.data.frame(matrix(0, dim(data)[1], 0))
     row.names(ranks) <- row.names(data)
     cols <- colnames(data)
     rev <- c(rev, rep(FALSE, dim(data)[2] - length(rev)))
@@ -23,7 +23,7 @@ rank.wfccm <- function(data, rev=FALSE, ties.break=NULL)
     if (missing(ties.break))
         ranks$rank <- rank(ranks$ranksum)
     else
-        ranks$rank <- order(order.data.frame(cbind(ranks$ranksum, data[,ties.break])))
+        ranks$rank <- order(order(cbind(ranks$ranksum, data[,ties.break])))
 
     ranks
 }
