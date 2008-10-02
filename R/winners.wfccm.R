@@ -1,10 +1,8 @@
-winners.wfccm <- function(stats, criteriaset)
-{
-    f <- function(x)
-        with(stats, eval(parse(text=x)))
+winners.wfccm <- function(stats, criteriaset) {
+    f <- function(x) { with(stats, eval(parse(text=x))) }
     passers <- mapply(f, as.character(criteriaset@criteria))
-    numPass <- apply(passers, 1, sum)
-    fdrPass <- apply(passers[,grep("fdr$", colnames(stats))], 1, sum)
+    numPass <- rowSums(passers)
+    fdrPass <- rowSums(passers[,grep("fdr$", colnames(stats), value=TRUE)])
     #fdrPass <- numPass <- numeric(nrow(stats))
     #for (crit in criteriaset@criteria)
     #{
@@ -17,5 +15,5 @@ winners.wfccm <- function(stats, criteriaset)
     #    numPass <- numPass + curPass
     #}
     pass <- with(stats, eval(parse(text=criteriaset@pass)))
-    data.frame(pass, fdrPass, numPass)
+    return(data.frame(pass, fdrPass, numPass))
 }

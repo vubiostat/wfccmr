@@ -1,5 +1,4 @@
-scores.wfccm <- function(data, stats=NULL, model=NULL, features=NULL)
-{
+scores.wfccm <- function(data, stats=NULL, model=NULL, features=NULL) {
     if ((is.null(model) && is.null(stats)) && is.null(features))
         stop("Must specify either data statistics and model to compute the feature scores or the feature scores themselves.")
     if (all(!is.null(stats), !is.null(model), !is.null(features)))
@@ -21,5 +20,5 @@ scores.wfccm <- function(data, stats=NULL, model=NULL, features=NULL)
     if (all(is.na(features)))
         features[1:length(features)] <- numeric(length(features))
     samples <- as.matrix(data) %*% features
-    list(features=features, samples=samples)
+    return(list(features=features, samples=samples))
 }

@@ -1,7 +1,5 @@
-summary.tests.wfccm <- function(..., file="", sep=",")
-{
-    cutoff <- function(x)
-    {
+summary.tests.wfccm <- function(..., file="", sep=",") {
+    cutoff <- function(x) {
         cut <- as.double(strsplit(format(x, scientific=TRUE), "e")[[1]][1])
         cutE <- 10 ** floor(log(x, 10))
         if (cut < 1.5)
@@ -22,20 +20,17 @@ summary.tests.wfccm <- function(..., file="", sep=",")
     grpnames <- names(scores)
     if (is.null(grpnames)) grpnames <- paste("Group", 1:l)
     cat("", grpnames, file=file, sep=sep, append=FALSE)
-    if ("info" %in% cols)
-    {
+    if ("info" %in% cols) {
         table <- matrix(NA,1,l)
         rownames(table) <- "==0"
-        for (i in 1:l)
-        {
+        for (i in 1:l) {
             if ("info" %in% colnames(scores[[i]]))
                 table[1,i] <- sum(scores[[i]][,"info"] == 0)
         }
         cat("\n", "info", "\n", file=file, sep="", append=TRUE)
         write.table(table, file=file, sep=sep, col.names=FALSE, append=TRUE)
     }
-    for (col in cols)
-    {
+    for (col in cols) {
         # columns we know to skip
         if (col == "info") next # info
         if (col == "sam") next # sam - use |sam|, aka asam
@@ -44,32 +39,25 @@ summary.tests.wfccm <- function(..., file="", sep=",")
         if (substr(col, nchar(col)-4, nchar(col)) == "value") next # statistics that have a pvalue
         table <- matrix(NA,1,l)
         keys <- c()
-        if (substr(col, 1, 5) == "prob.")
-        {
+        if (substr(col, 1, 5) == "prob.") {
             rownames(table) <- "Min"
             mode <- 1
             dec <- FALSE
             op <- "<"
-        }
-        else
-        {
+        } else {
             rownames(table) <- "Max"
             mode <- 2
             dec <- TRUE
             op <- ">"
         }
-        for (i in 1:l)
-        {
+        for (i in 1:l) {
             cold <- scores[[i]][,col]
             s <- sort(cold, decreasing=dec)
             table[1,i] <- s[1]
-            if (mode == 1)
-            {
+            if (mode == 1) {
                 idx <- 10 ** (floor(log(s[1], 10)):-1)
                 keys <- unique(c(-Inf, keys, idx, idx*5))
-            }
-            else if (mode == 2)
-            {
+            } else if (mode == 2) {
                 min300 <- s[min(300, length(s))]
                 maxE <- 10 ** floor(log(s[1], 10))
                 minE <- 10 ** floor(log(min300, 10))
@@ -85,8 +73,7 @@ summary.tests.wfccm <- function(..., file="", sep=",")
         keys <- sort(keys, decreasing=dec)
         table2 <- matrix(0, length(keys), l)
         rownames(table2) <- paste(op, keys)
-        for (i in 1:l)
-        {
+        for (i in 1:l) {
             if (!col %in% colnames(scores[[i]])) next
             table2[,i] <- apply(sapply(scores[[i]][,col], op, keys), 1, sum)
         }

@@ -29,12 +29,11 @@ wfccmr <- function(data, group, tests=tests.wfccm(data,group), model, testdata=N
             # calculate testing patient scores
             scores.test <- scores.wfccm(testdata.filt, features=scores$features)
             # run testing distance
-            prediction.test <- distance(scores.test$samples, testgroup, group.1=prediction.train$group.1, group.2=prediction.train$group.2, ...)
-            result$testing <- prediction.test
+            result$testing <- distancep(scores.test$samples, testgroup, group.1=result$training$group.1, group.2=result$training$group.2, verbose=verbose, permutations=criteriamanager@permutations)
             # testing ROC
             result$roc.testing <- roc(scores.test$samples, group=testgroup)
         }
         results[[i]] <- result
     }
-    results
+    return(results)
 }

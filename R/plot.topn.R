@@ -8,7 +8,7 @@ plot.topn <- function(x, sub="", show.grid=TRUE, show.legend=TRUE, ...)
     xlab <- "# of features"
     ylab <- "% correct"
     main <- paste("Top", l)
-    lwd <- c(2, rep(1, dim(table)[[2]] - 1))
+    lwd <- c(2, rep(1, ncol(table) - 1))
     matplot(0:l, table, col="blue", type="l", lwd=lwd, ylim=ylim, xlab=xlab, ylab=ylab, main=main, sub="")
     horiz <- TRUE
     ncol <- 1
@@ -20,7 +20,7 @@ plot.topn <- function(x, sub="", show.grid=TRUE, show.legend=TRUE, ...)
         names <- c(paste(names, "training"), paste(colnames(table2), "testing"))
         matplot(0:l, table2, col="red", type="l", lwd=lwd, add=TRUE)
         horiz <- FALSE
-        ncol <- dim(table)[[2]]
+        ncol <- ncol(table)
     }
     if (show.grid)
         abline(h=seq(0,100,10), col="lightgray", lty="dotted")

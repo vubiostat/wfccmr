@@ -1,29 +1,25 @@
-rank.wfccm <- function(data, rev=FALSE, ties.break=NULL)
-{
-    if (mode(rev) != mode(logical()))
+rank.wfccm <- function(data, rev=FALSE, ties.break=NULL) {
+    if (!is.logical(rev))
         stop("Parameter rev must be of mode logical.")
 
     data <- as.data.frame(data)
-    ranks <- as.data.frame(matrix(0, dim(data)[1], 0))
-    row.names(ranks) <- row.names(data)
+    ranks <- as.data.frame(matrix(0, nrow(data), 0), row.names(data))
     cols <- colnames(data)
-    rev <- c(rev, rep(FALSE, dim(data)[2] - length(rev)))
+    rev <- c(rev, rep(FALSE, ncol(data) - length(rev)))
 
-    for (i in 1:length(cols))
-    {
-        n <- cols[i]
+    ranks <- mapply(function(x, r, n) {
         l <- nchar(n)
-        if (substr(n, l-4,l) == ".rank")
-            ranks[[n]] <- data[,n]
+        if (substr(n, l-4, l) == ".rank")
+            x
         else
-            ranks[[paste(n, "rank", sep=".")]] <- order(order(data[,i], decreasing=rev[i]))
-    }
+            order(order(x, r))
+    }, data, rev, cols)
 
-    ranks$ranksum <- apply(ranks, 1, sum)
-    if (missing(ties.break))
-        ranks$rank <- rank(ranks$ranksum)
+    ranks$ranksum <- rowSums(ranks)
+    ranks$rank <- if (missing(ties.break))
+        rank(ranks$ranksum)
     else
-        ranks$rank <- order(order.data.frame(data.frame(ranks$ranksum, data[,ties.break])))
+        order(order.data.frame(data.frame(ranks$ranksum, data[,ties.break])))
 
     return(ranks)
 }

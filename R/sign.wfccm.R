@@ -1,5 +1,4 @@
-sign.wfccm <- function(data, lead, rest)
-{
+sign.wfccm <- function(data, lead, rest) {
     if (!is.data.frame(data))
         stop("Parameter data must be of class data.frame.")
     if (length(lead) > 1)
@@ -13,12 +12,11 @@ sign.wfccm <- function(data, lead, rest)
 
     signs <- sign(data[[lead]])
     #signs[signs == 0] <- 1
-    for (col in rest)
-    {
+    for (col in rest) {
         if (mode(data[[col]]) != mode(numeric()))
             warning(paste("Skipped column '", col, "' because it is not of mode numeric", sep=""))
         else
             data[[col]] <- abs(data[[col]]) * signs
     }
-    data
+    return(data)
 }
