@@ -23,7 +23,7 @@ rank.wfccm <- function(data, rev=FALSE, ties.break=NULL)
     if (missing(ties.break))
         ranks$rank <- rank(ranks$ranksum)
     else
-        ranks$rank <- order(order(cbind(ranks$ranksum, data[,ties.break])))
+        ranks$rank <- order(order.data.frame(data.frame(ranks$ranksum, data[,ties.break])))
 
-    ranks
+    return(ranks)
 }
