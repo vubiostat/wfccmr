@@ -46,7 +46,7 @@ Criteria <- function(name=character(), operator=character(), values=list()) {
 }
 
 # Tests
-is.Criteria <- function(x)  is(x, "Criteria")
+is.Criteria <- function(x) { is(x, "Criteria") }
 
 # Coersion
 # Criteria as.character

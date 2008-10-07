@@ -17,8 +17,9 @@ setClass("TopNManager",
 )
 
 # Constructor
-TopNManager <- function(criteria=Criteria(), name=paste("top",topN,sep=""), sign="", wfccmfunction="", prefilter="", permutations=10000, topN=100)
-new("TopNManager", criteria=criteria, name=name, sign=sign, wfccmfunction=wfccmfunction, prefilter=prefilter, permutations=permutations, topN=topN)
+TopNManager <- function(criteria=Criteria(), name=paste("top",topN,sep=""), sign="", wfccmfunction="", prefilter="", permutations=10000, topN=100) {
+    new("TopNManager", criteria=criteria, name=name, sign=sign, wfccmfunction=wfccmfunction, prefilter=prefilter, permutations=permutations, topN=topN)
+}
 
 # Write
 write.TopNManager <- function(x, file) {
@@ -39,7 +40,7 @@ read.TopNManager <- function(file) {
 }
 
 # Tests
-is.TopNManager <- function(x)  is(x, "TopNManager")
+is.TopNManager <- function(x) { is(x, "TopNManager") }
 
 # Coersion
 setAs(from="TopNManager", to="character",

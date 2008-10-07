@@ -26,8 +26,9 @@ setClass("CriteriaManager",
 )
 
 # Constructor
-CriteriaManager <- function(criteria=Criteria(), name="criteria", sign="", wfccmfunction="", prefilter="", permutations=0)
-new("CriteriaManager", criteria=criteria, name=name, sign=sign, wfccmfunction=wfccmfunction, prefilter=prefilter, permutations=permutations)
+CriteriaManager <- function(criteria=Criteria(), name="criteria", sign="", wfccmfunction="", prefilter="", permutations=0) {
+    new("CriteriaManager", criteria=criteria, name=name, sign=sign, wfccmfunction=wfccmfunction, prefilter=prefilter, permutations=permutations)
+}
 
 # Write
 write.CriteriaManager <- function(x, file) {
@@ -43,9 +44,7 @@ write.CriteriaManager <- function(x, file) {
 # Read from file
 read.CriteriaManager <- function(file) {
     data <- scan(file, what=character(0), sep="\n", blank.lines.skip=FALSE, quiet=TRUE)
-    fix <- function(x) {
-        gsub("([^.])value", "\\1.value", gsub("_", ".", x))
-    }
+    fix <- function(x) { gsub("([^.])value", "\\1.value", gsub("_", ".", x)) }
     name <- data[1]
     prefilter <- fix(data[3])
     wfccmfunction <- fix(data[5])
@@ -67,7 +66,7 @@ read.CriteriaManager <- function(file) {
 }
 
 # Tests
-is.CriteriaManager <- function(x)  is(x, "CriteriaManager")
+is.CriteriaManager <- function(x) { is(x, "CriteriaManager") }
 
 # Coersion
 setAs(from="CriteriaManager", to="character",

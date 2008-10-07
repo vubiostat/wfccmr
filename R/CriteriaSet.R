@@ -20,7 +20,7 @@ CriteriaSet <- function(criteria=Criteria(), pass="") {
 }
 
 # Tests
-is.CriteriaSet <- function(x)  is(x, "CriteriaSet")
+is.CriteriaSet <- function(x) { is(x, "CriteriaSet") }
 
 # Coersion
 setAs(from="CriteriaSet", to="character",

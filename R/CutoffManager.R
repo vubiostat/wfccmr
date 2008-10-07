@@ -23,8 +23,9 @@ setClass("CutoffManager",
 )
 
 # Constructor
-CutoffManager <- function(criteria=Criteria(), name="cutoff", sign="", wfccmfunction="", prefilter="", permutations=10000, numPass=Criteria("numPass",">=",1), fdrPass=Criteria("fdrPass",">=",1))
-new("CutoffManager", criteria=criteria, name=name, sign=sign, wfccmfunction=wfccmfunction, prefilter=prefilter, permutations=permutations, numPass=numPass, fdrPass=fdrPass)
+CutoffManager <- function(criteria=Criteria(), name="cutoff", sign="", wfccmfunction="", prefilter="", permutations=10000, numPass=Criteria("numPass",">=",1), fdrPass=Criteria("fdrPass",">=",1)) {
+    new("CutoffManager", criteria=criteria, name=name, sign=sign, wfccmfunction=wfccmfunction, prefilter=prefilter, permutations=permutations, numPass=numPass, fdrPass=fdrPass)
+}
 
 # Write
 write.CutoffManager <- function(x, file) {
@@ -49,7 +50,7 @@ read.CutoffManager <- function(file) {
 }
 
 # Tests
-is.CutoffManager <- function(x)  is(x, "CutoffManager")
+is.CutoffManager <- function(x) { is(x, "CutoffManager") }
 
 # Coersion
 setAs(from="CutoffManager", to="character",

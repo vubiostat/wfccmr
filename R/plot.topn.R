@@ -1,7 +1,6 @@
-plot.topn <- function(x, sub="", show.grid=TRUE, show.legend=TRUE, ...)
-{
+plot.topn <- function(x, sub="", show.grid=TRUE, show.legend=TRUE, ...) {
     l <- length(x)
-    f1 <- function(x) x$training$accuracy
+    f1 <- function(x) { x$training$accuracy }
     table <- rbind(0, 100 * t(sapply(x, f1)))
     names <- colnames(table)
     ylim <- c(0, 100)
@@ -12,10 +11,9 @@ plot.topn <- function(x, sub="", show.grid=TRUE, show.legend=TRUE, ...)
     matplot(0:l, table, col="blue", type="l", lwd=lwd, ylim=ylim, xlab=xlab, ylab=ylab, main=main, sub="")
     horiz <- TRUE
     ncol <- 1
-    f2 <- function(x) x$testing$accuracy
+    f2 <- function(x) { x$testing$accuracy }
     table2 <- t(sapply(x, f2))
-    if (!all(sapply(table2, is.null)))
-    {
+    if (!all(sapply(table2, is.null))) {
         table2 <- rbind(0, table2 * 100)
         names <- c(paste(names, "training"), paste(colnames(table2), "testing"))
         matplot(0:l, table2, col="red", type="l", lwd=lwd, add=TRUE)
