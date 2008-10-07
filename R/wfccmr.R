@@ -1,25 +1,24 @@
-wfccmr <- function(data, group, tests=tests.wfccm(data,group), model, testdata=NULL, testgroup=NULL, ...)
-{
+wfccmr <- function(data, group, tests=tests.wfccm(data,group), criteriamanager, testdata=NULL, testgroup=NULL, verbose=TRUE) {
     group <- factor(group)
-    lvls <- levels(group)
-    if (length(lvls) != 2)
+    if (nlevels(group) != 2)
         stop("group information should have 2 levels")
     results <- list()
-    for (i in 1:length(model)) {
-        # get winners for model
-        winners <- winners.wfccm(tests, model[[i]])
-        # filter data
+    for (i in 1:length(criteriamanager)) {
+        result <- list()
+        # get winners for criteriamanager
+        winners <- winners.wfccm(tests, criteriamanager[[i]])
         tests.filt <- cbind(tests, winners[,-1])[winners$pass,]
+        # filter data
         data.filt <- data[, winners$pass, drop=FALSE]
         # calculate patient scores
-        scores <- scores.wfccm(data.filt, tests.filt, model)
+        tests.filt <- sign.wfccm(tests.filt, criteriamanager@sign[1], criteriamanager@sign[-1])
+        scores <- scores.wfccm(data.filt, tests.filt, criteriamanager@wfccmfunction)
         winners <- cbind(winners, wfccmScore=NA)
         winners[winners$pass, ]$wfccmScore <- scores$features
         # run distance
-        prediction.train <- distance(scores$samples, group, ...)
-        result <- list()
+        result$training <- distancep(scores$samples, group, verbose=verbose, permutations=criteriamanager@permutations)
+        # save winners
         result$winners <- winners
-        result$training <- prediction.train
         # ROC
         result$roc.training <- roc(scores$samples, group=group)
         # testing

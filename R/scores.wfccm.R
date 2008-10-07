@@ -1,24 +1,23 @@
-scores.wfccm <- function(data, stats=NULL, model=NULL, features=NULL) {
-    if ((is.null(model) && is.null(stats)) && is.null(features))
-        stop("Must specify either data statistics and model to compute the feature scores or the feature scores themselves.")
-    if (all(!is.null(stats), !is.null(model), !is.null(features)))
-        stop("Specify either the test statistics and model or the feature scores, but not both.")
-    if (is.null(features))
-    {
-        if (is.null(model))
-            stop("Must specify a model to compute the feature scores.")
+scores.wfccm <- function(data, stats=NULL, wfccmfunction=NULL, features=NULL) {
+    if (is.null(stats) && is.null(wfccmfunction) && is.null(features))
+        stop("Must specify either test statistics and wfccmfunction to compute the feature scores or the feature scores themselves.")
+    if (!is.null(stats) && !is.null(wfccmfunction) && !is.null(features))
+        stop("Specify either the test statistics and wfccmfunction or the feature scores, but not both.")
+    if (is.null(features)) {
+        if (is.null(wfccmfunction))
+            stop("Must specify a wfccmfunction to compute the feature scores.")
         else if (is.null(stats))
             stop("Must specify the test statistics to compute the feature scores.")
-        if (!"CriteriaManager" %in% class(model))
-            stop("Model must be a CriteriaManager")
+        if (!is.character(wfccmfunction) || length(wfccmfunction) != 1)
+            stop("wfccmfunction must be a single character string.")
         names <- colnames(stats)
-        std <- names[!is.na(sapply(paste("\\W", names, ".std\\W", sep=""), grep, model@wfccmfunction) == 1)]
-        tmp <- cbind(stats, scale(stats[,std], 2))
-        tmp <- sign.wfccm(tmp, model@sign[1], model@sign[2:length(model@sign)])
-        features <- with(tmp, eval(parse(text=model@wfccmfunction)))
+        std <- names[!is.na(sapply(paste("\\W", names, ".std\\W", sep=""), grep, wfccmfunction) == 1)]
+        tmp <- data.frame(scale(stats[,std]))
+        colnames(tmp) <- paste(colnames(tmp), "std", sep=".")
+        features <- with(cbind(stats, tmp), eval(parse(text=wfccmfunction)))
     }
     if (all(is.na(features)))
         features[1:length(features)] <- numeric(length(features))
-    samples <- as.matrix(data) %*% features
+    samples <- as.vector(as.matrix(data) %*% features)
     return(list(features=features, samples=samples))
 }
