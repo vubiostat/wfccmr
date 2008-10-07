@@ -5,7 +5,7 @@ export(Criteria, CriteriaSet, CutoffManager, TopNManager)
 export(is.Criteria, is.CriteriaSet, is.CriteriaManager, is.CutoffManager, is.TopNManager)
 export(write.CriteriaManager, write.CutoffManager, write.TopNManager)
 export(read.CutoffManager, read.TopNManager)
-export(distance, distancep, filter.wfccm, rank.wfccm, scores.wfccm, sign.wfccm, tests.wfccm, winners.wfccm, wfccmr, read.wfccmdata, read.wfccminfo)
+export(cv.wfccmr, distance, distancep, filter.wfccm, rank.wfccm, scores.wfccm, sign.wfccm, tests.wfccm, winners.wfccm, wfccmr, read.wfccmdata, read.wfccminfo)
 
 exportClasses(Criteria, CriteriaSet, CriteriaManager, CutoffManager, TopNManager)
 
