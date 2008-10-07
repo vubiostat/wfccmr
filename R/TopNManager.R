@@ -97,7 +97,7 @@ setMethod("[[",
                 i="numeric",
                 j="missing"),
     function(x, i, j) {
-        n <- (i - 1) %% x@topN
+        n <- (i - 1) %% x@topN + 1
         CriteriaSet(x@criteria[[i]], paste("(rank <=", n, ") & (numPass >= 1)"))
     }
 )
