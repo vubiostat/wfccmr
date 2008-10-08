@@ -120,7 +120,7 @@ setMethod("[[",
                 paste("numPass", x@numPass@operator, x@numPass@values[n %% length(x@numPass) + 1])
             else
                 "numPass >= 1"
-            )
+        )
         CriteriaSet(x@criteria[[i]], pass)
     }
 )

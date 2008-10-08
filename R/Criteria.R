@@ -26,7 +26,7 @@ setClass("Criteria",
             (   any(sapply(object@values[rankcols], length) != 1) ||
                 !all(is.na(unlist(object@values[rankcols])))
             ))
-            return("ASC and DESC must have a single NA cutoff")
+            return("ASC and DESC operators must have a single NA cutoff")
         TRUE
     }
 )

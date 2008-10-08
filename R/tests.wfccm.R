@@ -1,5 +1,6 @@
 tests.wfccm <- function(x, grp, tests = c("t", "ks", "wilcoxon", "sam", "wga", "huwright", "info"), ...) {
-    if (nlevels(factor(grp)) != 2)
+    grp <- factor(grp)
+    if (nlevels(grp) != 2)
         stop("There must be 2 groups for statistical tests.")
     namemap <- c(t="t", ks="d", wilcoxon="c", fisher="f")
     tests <- match.arg(tests, several.ok=TRUE)
