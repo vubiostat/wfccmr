@@ -52,6 +52,9 @@ tests.wfccm <- function(x, grp, tests = c("t", "ks", "wilcoxon", "sam", "wga", "
                 dat$sam <- tmp
                 dat$asam <- abs(tmp)
                 dat$asam.rank <- rank(-dat$asam)
+            } else {
+                warning("Package 'samr' is not installed")
+                next
             }
         }
 
