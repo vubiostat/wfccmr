@@ -98,6 +98,13 @@ setMethod("[[",
                 j="missing"),
     function(x, i, j) {
         n <- (i - 1) %% x@topN + 1
-        CriteriaSet(x@criteria[[i]], paste("(rank <=", n, ") & (numPass >= 1)"))
+        crits <- x@criteria[[i]]
+        if (length(crits) > 0) {
+            for (i in 1:length(crits)) {
+                if (crits[i]@operator %in% c("ASC", "DESC"))
+                    crits[i] <- Criteria(paste(crits[i]@name, "rank", sep="."), "<=", n)
+            }
+        }
+        CriteriaSet(c(crits, Criteria("rank", "<=", n)), paste("(rank <= ", n, ") & (numPass >= 1)", sep=""))
     }
 )
