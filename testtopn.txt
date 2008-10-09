@@ -1,0 +1,16 @@
+top30
+
+
+
+( numpass / 5 ) * ( 1 - info ) * ( tvalue.std + cvalue.std + dvalue.std + asam.std + wga.std )
+
+tvalue asam cvalue dvalue huwright wga
+
+10000
+
+prob.t ASC NA
+prob.c ASC NA
+prob.d ASC NA
+asam DESC NA
+wga DESC NA
+info == 0

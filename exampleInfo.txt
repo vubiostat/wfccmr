@@ -1,0 +1,22 @@
+name	patient	age	gender	smoking status	marriage status	cancer type
+patient 1 - sample 1	patient 1	35	M	smoker	single	lung
+patient 1 - sample 2	patient 1	38	M	smoker	single	lung
+patient 1 - sample 3	patient 1	32	M	smoker	single	lung
+patient 2 - sample 1	patient 2	28	F	nonsmoker	married	colon
+patient 2 - sample 2	patient 2	30	F	nonsmoker	married	colon
+patient 2 - sample 3	patient 2	31	F	nonsmoker	married	colon
+patient 3 - sample 1	patient 3	40	M	nonsmoker	married	colon
+patient 3 - sample 2	patient 3	42	M	nonsmoker	married	colon
+patient 4 -sample 1	patient 4	54	F	nonsmoker	single	lung
+patient 4 -sample 2	patient 4	58	F	nonsmoker	single	lung
+patient 4 -sample 3	patient 4	97	F	nonsmoker	single	lung
+patient 4 -sample 4	patient 4	52	F	nonsmoker	single	lung
+patient 5 - sample 1	patient 5	29	M	smoker	single	lung
+patient 5 - sample 2	patient 5	31	M	smoker	single	lung
+patient 6 - sample 1	patient 6	36	F	smoker	single	colon
+patient 6 - sample 2	patient 6	34	F	smoker	single	colon
+patient 6 - sample 3	patient 6	33	F	smoker	single	colon
+patient 6 - sample 4	patient 6	32	F	smoker	single	colon
+patient 7 - sample 1	patient 7	42	M	smoker	single	lung
+patient 7 - sample 2	patient 7	40	M	smoker	single	lung
+patient 7 - sample 3	patient 7	38	M	smoker	single	lung
