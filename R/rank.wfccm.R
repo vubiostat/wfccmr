@@ -15,11 +15,10 @@ rank.wfccm <- function(data, rev=FALSE, ties.break=NULL) {
             order(order(x, r))
     }, data, rev, cols)
 
-    ranks$ranksum <- rowSums(ranks)
-    ranks$rank <- if (missing(ties.break))
-        rank(ranks$ranksum)
-    else
-        order(order.data.frame(data.frame(ranks$ranksum, data[,ties.break])))
-
-    return(ranks)
+    return(data.frame(ranksum=rowSums(ranks),
+        rank=if (missing(ties.break))
+            rank(ranks$ranksum)
+        else
+            order(order.data.frame(data.frame(ranks$ranksum, data[,ties.break])))
+    ))
 }
