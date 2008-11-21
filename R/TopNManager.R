@@ -105,6 +105,6 @@ setMethod("[[",
                     crits[i] <- Criteria(paste(crits[i]@name, "rank", sep="."), "<=", n)
             }
         }
-        CriteriaSet(c(crits, Criteria("rank", "<=", n)), paste("(rank <= ", n, ") & (numPass >= 1)", sep=""))
+        CriteriaSet(crits, paste("(rank <= ", n, ") & (numPass >= 1)", sep=""))
     }
 )
