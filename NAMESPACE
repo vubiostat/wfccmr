@@ -11,5 +11,7 @@ exportClasses(Criteria, CriteriaSet, CriteriaManager, CutoffManager, TopNManager
 
 exportMethods(coerce, show, "[", "[[", length, names, c, as.Criteria)
 
-S3method(plot, topn)
 S3method(summary, tests.wfccm)
+S3method(summary, wfccm)
+S3method(plot, summary.wfccm)
+S3method(plot, wfccm)
