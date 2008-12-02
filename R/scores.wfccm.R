@@ -1,4 +1,4 @@
-scores.wfccm <- function(data, stats=NULL, wfccmfunction=NULL, features=NULL) {
+scores.wfccm <- function(data=NULL, stats=NULL, wfccmfunction=NULL, features=NULL) {
     if (is.null(stats) && is.null(wfccmfunction) && is.null(features))
         stop("Must specify either test statistics and wfccmfunction to compute the feature scores or the feature scores themselves.")
     if (!is.null(stats) && !is.null(wfccmfunction) && !is.null(features))
@@ -10,14 +10,21 @@ scores.wfccm <- function(data, stats=NULL, wfccmfunction=NULL, features=NULL) {
             stop("Must specify the test statistics to compute the feature scores.")
         if (!is.character(wfccmfunction) || length(wfccmfunction) != 1)
             stop("wfccmfunction must be a single character string.")
+        # Scale the statistics
         names <- colnames(stats)
         std <- names[!is.na(sapply(paste("\\W", names, ".std\\W", sep=""), grep, wfccmfunction) == 1)]
-        tmp <- data.frame(scale(stats[,std]))
+        tmp <- data.frame(scale(stats[,std], center=FALSE))
         colnames(tmp) <- paste(colnames(tmp), "std", sep=".")
-        features <- with(cbind(stats, tmp), eval(parse(text=wfccmfunction)))
+        # Evaluate the wfccm function to get feature scores
+        if (is.character(wfccmfunction))
+            wfccmfunction <- parse(text=wfccmfunction)
+        features <- with(cbind(stats, tmp), eval(wfccmfunction))
     }
-    if (all(is.na(features)))
-        features[1:length(features)] <- numeric(length(features))
-    samples <- as.vector(as.matrix(data) %*% features)
+    if (!is.null(data)) {
+        # Matrix multiplication to get sample scores
+        if (all(is.na(features)))
+            features[1:length(features)] <- numeric(length(features))
+        samples <- as.vector(as.matrix(data) %*% features)
+    } else { samples <- NULL }
     return(list(features=features, samples=samples))
 }
