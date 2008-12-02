@@ -34,5 +34,5 @@ wfccmr <- function(data, group, tests=tests.wfccm(data,group), criteriamanager, 
         }
         results[[i]] <- result
     }
-    return(results)
+    return(structure(results, class=c("wfccm", "list")))
 }

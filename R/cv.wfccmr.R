@@ -6,7 +6,7 @@ cv.wfccmr <- function(data, group, strata=stratify(group, n=10), tests=expressio
     if (nlevels(group) != 2)
         stop("group information should have 2 levels")
     results <- list()
-    n <- ncols(data)
+    n <- ncol(data)
     for (i in 1:length(criteriamanager)) {
         result <- list()
         cvresults <- list()
@@ -66,5 +66,5 @@ cv.wfccmr <- function(data, group, strata=stratify(group, n=10), tests=expressio
         #}
         results[[i]] <- result
     }
-    results
+    return(structure(results, class=c("wfccm", "list")))
 }
