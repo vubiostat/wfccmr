@@ -1,11 +1,11 @@
 Package: Wfccm
-Version: 0.0
+Version: 1.0
 Title: WFCCM for R
-Author: Will Gray <w.gray@vanderbilt.edu>, with contributions from Yu Shyr <yu.shyr@vanderbilt.edu>
+Author: Will Gray <w.gray@vanderbilt.edu>, David Biagi <david.biagi@vanderbilt.edu>, Yu Shyr <yu.shyr@vanderbilt.edu>
 Maintainer: Will Gray <w.gray@vanderbilt.edu>
-Depends: R (>= 2.0.0), methods, VICCBiostat
-Suggests: samr, ROC
-Description: Implements Yu Shyr's Weighted Flexible Compound Covariate Method
- in R.
+Imports: methods, VICCBiostat, rpanel, tcltk, tcltk2
+Suggests: samr
+Description: Implements Yu Shyr's Weighted Flexible Compound Covariate Method in R.
 License: See file LICENSE.
 URL: http://www.vicc.org/biostatistics/wfccm/
+LazyLoad: yes
