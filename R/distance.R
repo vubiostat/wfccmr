@@ -1,4 +1,4 @@
-distance <- function(scores, group=NULL, group.1=NA, group.2=NA, verbose=FALSE) {
+distance <- function(scores, group=NULL, group.1=NA, group.2=NA, verbose=TRUE) {
     # will we have to calculate the centers of the groups?
     calc.group <- (is.na(group.1) || is.na(group.2))
 

@@ -1,4 +1,4 @@
-distancep <- function(scores, group, group.1=NA, group.2=NA, verbose=TRUE, permutations=10000) {
+distancep <- function(scores, group, group.1=NA, group.2=NA, verbose=TRUE, permutations=1000) {
     result <- distance(scores, group, group.1, group.2, verbose)
     cnt <- NA
     for (i in 1:permutations) {

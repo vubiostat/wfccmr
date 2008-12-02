@@ -1,11 +1,14 @@
 \name{distance}
 \alias{distance}
+\alias{distancep}
 \title{Wfccm Distance}
 \description{
   Run distance on a set of sample scores.
 }
 \usage{
-  distance(scores, group = NULL, group.1 = NA, group.2 = NA, verbose = FALSE)
+  distance(scores, group = NULL, group.1 = NA, group.2 = NA, verbose = TRUE)
+
+  distancep(scores, group, group.1 = NA, group.2 = NA, verbose = TRUE, permutations=1000)
 }
 \arguments{
   \item{scores}{numeric vector of scores for a set of samples.}
@@ -13,6 +16,7 @@
   \item{group.1}{mean (or center) of group 1 in the training data.  This is necessary for classifying a testing cohort.}
   \item{group.2}{mean (or center) of group 2 in the training data.  This is necessary for classifying a testing cohort.}
   \item{verbose}{boolean. If \code{TRUE}, include full table of output; otherwise, just the classification predictions.}
+  \item{permutations}{integer.  Number of distance permutations to run.}
 }
 \details{
   For a training cohort, pass the scores and group classification
@@ -26,6 +30,8 @@ distance(scores, group.1, group.2, \dots)
 }
 
   Uses simple distance on a set of data to do two-class classification.  For training data, you only need the scores and true classification.  For testing data, you only need the scores and group means of the training data.  Optionally, you may include the true classification for the testing data to get classification accuracy.
+
+  Distance permutations involve randomly relabelling the samples and reclassifying the samples.  The result will include a ratio of the permutations did perform better.
 }
 \value{
   \item{prediction}{A factor of class predictions for each sample in the list of scores.  If verbose, a data.frame of scores, predicted class, group means, distances from group means, and possibly a flag for correct classification.}
