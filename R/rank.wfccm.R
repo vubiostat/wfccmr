@@ -7,18 +7,21 @@ rank.wfccm <- function(data, rev=FALSE, ties.break=NULL) {
     cols <- colnames(data)
     rev <- c(rev, rep(FALSE, ncol(data) - length(rev)))
 
-    ranks <- mapply(function(x, r, n) {
+    ranks <- as.data.frame(mapply(function(x, r, n) {
         l <- nchar(n)
         if (substr(n, l-4, l) == ".rank")
             x
         else
             order(order(x, r))
-    }, data, rev, cols)
+    }, data, rev, cols))
+    which <- -grep(".rank$", cols)
+    colnames(rank)[which] <- paste(cols[which], "rank", sep=".")
 
-    return(data.frame(ranksum=rowSums(ranks),
-        rank=if (missing(ties.break))
-            rank(ranks$ranksum)
-        else
-            order(order.data.frame(data.frame(ranks$ranksum, data[,ties.break])))
-    ))
+    ranksum <- rowSums(ranks)
+    allrank <- if (missing(ties.break))
+        rank(ranks$ranksum)
+    else
+        order(order.data.frame(data.frame(ranks$ranksum, data[,ties.break])))
+
+    return(data.frame(ranks, ranksum, rank=allrank))
 }
