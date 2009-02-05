@@ -12,7 +12,7 @@ export(wfccmr, cv.wfccmr)
 export(distance, distancep)
 export(filter.wfccm, rank.wfccm, scores.wfccm, sign.wfccm, tests.wfccm, winners.wfccm)
 export(read.wfccmdata, read.wfccminfo)
-export(wfccmgui, topnpanel, generateSTDFunc)
+export(wfccmgui, topnpanel, generateSTDfunc)
 
 exportClasses(Criteria, CriteriaSet, CriteriaManager, CutoffManager, TopNManager)
 
