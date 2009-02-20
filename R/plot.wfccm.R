@@ -7,9 +7,10 @@ plot.summary.wfccm <- function(x, main=paste("Top", nrow(x)), sub="", xlab="# of
     localWindow <- function(..., col, bg, pch, cex, lty, lwd) plot.window(...)
     localTitle <- function(..., col, bg, pch, cex, lty, lwd) title(...)
 
+    each <- 1
     l <- nrow(x)
     n <- ncol(x)
-    dp <- which(colnames(x) == "distance.p")
+    dp <- grep("^distance\\.p", colnames(x))
     xlim <- c(0, l)
     ylim <- c(0, 100)
     plot.new()
@@ -33,9 +34,9 @@ plot.summary.wfccm <- function(x, main=paste("Top", nrow(x)), sub="", xlab="# of
     matlines(0:l, table, col="blue", lwd=lwd, lty=lty)
 
     if (!is.na(dp[2])) {
+        each <- 2
         table2 <- rbind(0, x[, seq(dp[1]+1, dp[2]-1, 2), drop=FALSE])
-        table2 <- rbind(0, 100 * table2)
-        names <- c(paste(names, "training"), paste(colnames(table2), "testing"))
+        names <- c(rbind(names, colnames(table2)))
         matlines(0:l, table2, col="red", lwd=lwd, lty=lty)
     }
 
@@ -50,7 +51,7 @@ plot.summary.wfccm <- function(x, main=paste("Top", nrow(x)), sub="", xlab="# of
         localTitle(xlab=xlab, ylab=ylab, main=main, sub="", ...)
     if (show.legend) {
         ncol <- ncol(table)
-        legend(x=l, y=0, legend=names, ncol=ncol, col=rep(c("blue","red"), each=l), lwd=lwd, lty=lty, xjust=1, yjust=0)
+        legend(x=l, y=0, legend=names, ncol=ncol, col=rep(rep(c("blue","red"), length.out=each), times=ncol), lwd=rep(lwd, each=each), lty=rep(lty, each=each), xjust=1, yjust=0, cex=0.8)
     }
     invisible(x)
 }
