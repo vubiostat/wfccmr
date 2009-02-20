@@ -18,13 +18,13 @@ scores.wfccm <- function(data=NULL, stats=NULL, wfccmfunction=NULL, features=NUL
         # Evaluate the wfccm function to get feature scores
         if (is.character(wfccmfunction))
             wfccmfunction <- parse(text=wfccmfunction)
-        features <- with(cbind(stats, tmp), eval(wfccmfunction))
+        features <- structure(with(cbind(stats, tmp), eval(wfccmfunction)), names=rownames(stats))
     }
     if (!is.null(data)) {
         # Matrix multiplication to get sample scores
         if (all(is.na(features)))
             features[1:length(features)] <- numeric(length(features))
-        samples <- as.vector(as.matrix(data) %*% features)
+        samples <- structure(as.vector(as.matrix(data) %*% features), names=rownames(data))
     } else { samples <- NULL }
     return(list(features=features, samples=samples))
 }
