@@ -1,4 +1,11 @@
-summary.tests.wfccm <- function(..., file="", sep=",") {
+summary.tests.wfccm <- function(..., file="", sep=NULL) {
+    if (is.null(sep)) {
+        if (file == "") {
+            sep = "\t"
+        } else {
+            stop("Please specify 'sep'.")
+        }
+    }
     cutoff <- function(x) {
         cut <- as.double(strsplit(format(x, scientific=TRUE), "e")[[1]][1])
         cutE <- 10 ** floor(log(x, 10))
@@ -20,6 +27,7 @@ summary.tests.wfccm <- function(..., file="", sep=",") {
     grpnames <- names(scores)
     if (is.null(grpnames)) grpnames <- paste("Group", 1:l)
     cat("", grpnames, file=file, sep=sep, append=FALSE)
+    result <- list()
     if ("info" %in% cols) {
         table <- matrix(NA,1,l)
         rownames(table) <- "==0"
@@ -29,14 +37,15 @@ summary.tests.wfccm <- function(..., file="", sep=",") {
         }
         cat("\n", "info", "\n", file=file, sep="", append=TRUE)
         write.table(table, file=file, sep=sep, col.names=FALSE, append=TRUE)
+        result$info <- table
     }
     for (col in cols) {
         # columns we know to skip
-        if (col == "info") next # info
-        if (col == "sam") next # sam - use |sam|, aka asam
-        if (col == "ranksum") next
-        if (substr(col, nchar(col)-3, nchar(col)) == "rank") next # ranks
-        if (substr(col, nchar(col)-4, nchar(col)) == "value") next # statistics that have a pvalue
+        if (col == "info") next # skip info, handled already
+        if (col == "sam") next # skip sam, use |sam| (aka asam)
+        if (col == "ranksum") next # skip ranksum
+        if (substr(col, nchar(col)-3, nchar(col)) == "rank") next # skip ranks
+        if (substr(col, nchar(col)-4, nchar(col)) == "value") next # skip statistics that have an associated pvalue
         table <- matrix(NA,1,l)
         keys <- c()
         if (substr(col, 1, 5) == "prob.") {
@@ -81,5 +90,7 @@ summary.tests.wfccm <- function(..., file="", sep=",") {
         table <- rbind(table2, table)
         cat("\n", col, "\n", file=file, sep="", append=TRUE)
         write.table(table, file=file, sep=sep, col.names=FALSE, append=TRUE)
+        result[[col]] <- table
     }
+    invisible(result)
 }

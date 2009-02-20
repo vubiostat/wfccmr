@@ -32,7 +32,7 @@ tests.wfccm <- function(x, grp, tests = c("t", "ks", "wilcoxon", "sam", "wga", "
 
         if (test == "fisher") {
             dat <- data.frame(t(mapply(function(x,y) {
-                return(unlist(fisher.test(table(x > 0, y > 0), ...)[c("estimate","p.value")]))
+                return(unlist(fisher.test(table(x > 0, y > 0))[c("estimate","p.value")]))
             }, d[[1]], d[[2]])))
             names(dat) <- c("f.value", "prob.f")
             fdr <- fdrAdjustment(dat[[2]])
@@ -48,7 +48,7 @@ tests.wfccm <- function(x, grp, tests = c("t", "ks", "wilcoxon", "sam", "wga", "
 
         if (test == "sam") {
             if (require(samr)) {
-                tmp <- as.vector(samr(list(x=t(x), y=grp), "Quantitative", nperms=1, ...)$tt)
+                tmp <- as.vector(samr(list(x=t(x), y=grp), "Quantitative", nperms=1)$tt)
                 dat$sam <- tmp
                 dat$asam <- abs(tmp)
                 dat$asam.rank <- rank(-dat$asam)
