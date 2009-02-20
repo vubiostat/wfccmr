@@ -44,15 +44,16 @@ cv.wfccmr <- function(data, group, strata=stratify(group, n=10), tests=expressio
         }
         # compile results
         result$training <- list()
-        result$training$prediction <- unsplit(lapply(cvresults, function(x) x$prediction), strata)
+        result$training$prediction <- unsplit(lapply(cvresults, function(x) { x$prediction } ), strata)
         result$training$n <- rowSums(sapply(cvresults, function(x) x$n))
-        result$training$accuracy <- rowSums(sapply(cvresults, function(x) x$n * x$accuracy)) / result$training$n
+        result$training$accuracy <- rowSums(sapply(cvresults, function(x) { x$n * x$accuracy } )) / result$training$n
         div(result$winners$wfccmScore) <- nlevels(strata)
         ## testing
+        # TODO
         #if (!is.null(testdata)) {
         #    # filter testing data
-        #    data.filt <- data[, (result$winners$count > 0), drop=FALSE]
-        #    testdata.filt <- testdata[, (result$winners$count > 0), drop=FALSE]
+        #    data.filt <- subset(data, select=(result$winners$count > 0))
+        #    testdata.filt <- subset(testdata, select=(result$winners$count > 0))
         #    # calculate testing patient scores
         #    scores <- scores.wfccm(data.filt, features=result$winners$wfccmScore)
         #    scores.test <- scores.wfccm(testdata.filt, features=result$winners$wfccmScore)

@@ -5,11 +5,11 @@ wfccmr <- function(data, group, tests=tests.wfccm(data,group), criteriamanager, 
     results <- list()
     for (i in 1:length(criteriamanager)) {
         result <- list()
-        # get winners for criteriamanager
+        # get winners for criteriaset
         winners <- winners.wfccm(tests, criteriamanager[[i]])
         tests.filt <- cbind(tests, winners[,-1])[winners$pass,]
         # filter data
-        data.filt <- data[, winners$pass, drop=FALSE]
+        data.filt <- subset(data, select=winners$pass)
         # calculate patient scores
         tests.filt <- sign.wfccm(tests.filt, criteriamanager@sign[1], criteriamanager@sign[-1])
         scores <- scores.wfccm(data.filt, tests.filt, criteriamanager@wfccmfunction)
@@ -22,9 +22,9 @@ wfccmr <- function(data, group, tests=tests.wfccm(data,group), criteriamanager, 
         # ROC
         result$roc.training <- roc(scores$samples, group=group)
         # testing
-        if (!missing(testdata)) {
+        if (!is.null(testdata)) {
             # filter testing data
-            testdata.filt <- testdata[, winners$pass, drop=FALSE]
+            testdata.filt <- subset(testdata, select=winners$pass)
             # calculate testing patient scores
             scores.test <- scores.wfccm(testdata.filt, features=scores$features)
             # run testing distance

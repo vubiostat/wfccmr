@@ -70,7 +70,7 @@ tests.wfccm <- function(x, grp, tests = c("t", "ks", "wilcoxon", "sam", "wga", "
         result <- cbind(result, dat)
     }
 
-    result <- cbind(result, rank.wfccm(result[,grep(".rank$", colnames(result), value=TRUE)], ties.break=1)[c("ranksum","rank")])
-    
+    result <- cbind(result, rank.wfccm(subset(result, select=grep(".rank$", colnames(result), value=TRUE)), ties.break=1)[c("ranksum","rank")])
+
     return(structure(result, class=c("tests.wfccm", "data.frame")))
 }
