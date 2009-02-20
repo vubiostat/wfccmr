@@ -14,14 +14,17 @@ rank.wfccm <- function(data, rev=FALSE, ties.break=NULL) {
         else
             order(order(x, r))
     }, data, rev, cols))
-    which <- -grep(".rank$", cols)
-    colnames(rank)[which] <- paste(cols[which], "rank", sep=".")
+    which <- grep("\\.rank$", cols) != 1:length(cols)
+    if (any(which)) {
+        colnames(ranks)[which] <- paste(cols[which], "rank", sep=".")
+    }
 
     ranksum <- rowSums(ranks)
-    allrank <- if (missing(ties.break))
-        rank(ranks$ranksum)
-    else
-        order(order.data.frame(data.frame(ranks$ranksum, data[,ties.break])))
+    allrank <- if (missing(ties.break) || is.null(ties.break)) {
+        rank(ranksum)
+    } else {
+        order(order.data.frame(data.frame(ranksum, subset(data, select=ties.break))))
+    }
 
     return(data.frame(ranks, ranksum, rank=allrank))
 }
